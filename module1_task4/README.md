@@ -2,46 +2,63 @@
 
 <img src="https://www.freecodecamp.org/news/content/images/size/w2000/2021/12/2220.jpg" width="100%">
 
-# Reproducing Production Environment Locally
+# Production Deployment
+This project contains the source code and configurations necessary to generate a static website using Hugo. The setup.sh script automates the installation of dependencies and generation of the website.
 
-This project contains a shell script to reproduce a pseudo production environment locally. It simulates the steps taken by the production team to build the website in an Ubuntu 18.04 environment.
+## Prerequisites
 
-## Getting Started
+- A Ubuntu 18.04 environment
+- Docker (optional, for running the script in an isolated environment)
 
-To use this script, you need to have Docker installed on your machine.
+## Project Structure
 
-### Prerequisites
+The project is organized as follows:
 
-- Docker
+```c
+├── archetypes/         # Content templates
+├── content/            # Website content
+├── data/               # Additional data
+├── layouts/            # Presentation templates
+├── static/             # Static files
+├── themes/             # Custom themes
+├── config.toml         # Site configuration
+└── setup.sh            # Installation script
+```
 
-### Usage
+## Usage
 
 1. Clone this repository to your local machine.
-2. Open a terminal and navigate to the project's root directory (where the `setup.sh` script is located).
-3. Run the following command to start an Ubuntu 18.04 Docker container:
+
+```bash
+https://github.com/MathieuMorel62/holbertonschool-validation.git
+```
+
+2. Navigate to the `module1_task4` project directory.
+3. Modify the `config.toml` file to customize the site configuration, add content, etc.
+4. Make the `setup.sh` script executable by running the following command: `chmod +x setup.sh`.
+5. Run the `setup.sh` script to install dependencies and generate the website: `./setup.sh`.
+
+## Usage with Docker (optional)
+You can run the `setup.sh` script in an isolated environment using Docker. To do so, run the following command:
 
 ```bash
 docker run --rm --tty --interactive --volume=$(pwd):/app --workdir=/app ubuntu:18.04 /bin/bash
 ```
 
-4. Inside the Docker container, execute the `./setup.sh` script. This will update the package list, install Hugo and Make, and then run the `make build` command, which should produce an error as described in the exercise.
+Once you are inside the Docker environment, follow steps 3 and 4 mentioned above to configure the site, make the script executable, and run it.
 
-5. When you're done, you can exit the Docker container by typing `exit`.
+## Examples
 
-### Test
+Here are some examples of how you can customize and configure your generated website:
 
-```bash
-➜ grep 'UBUNTU_CODENAME' /etc/os-release
-UBUNTU_CODENAME=bionic
+- Change the site's theme by modifying the `theme = "..."` line in the `config.toml` file.
+- Add content by creating a new file in the `content/` directory.
+- Add images or other static files by placing them in the `static/` directory.
+- Customize the site's presentation template by modifying files in the `layouts/` directory.
 
-➜ command -v hugo >/dev/null 2>&1 || echo "No 'hugo'"
-No 'hugo'
+## Result
 
-➜ ./setup.sh >/dev/null 2>&1
-➜ command -v hugo >/dev/null 2>&1 || echo "No 'hugo'"
-➜ ./setup.sh 2>&1 | grep -c "recipe for target 'build' failed"
-1
-```
+After running the `setup.sh` script, the generated website will be available in the `./dist` directory. You can now deploy this site to a server of your choice.
 
 -------------------
 
