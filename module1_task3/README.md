@@ -28,6 +28,21 @@ docker run --rm --tty --interactive --volume=$(pwd):/app --workdir=/app ubuntu:1
 
 5. When you're done, you can exit the Docker container by typing `exit`.
 
+### Test
+
+```bash
+➜ grep 'UBUNTU_CODENAME' /etc/os-release
+UBUNTU_CODENAME=bionic
+
+➜ command -v hugo >/dev/null 2>&1 || echo "No 'hugo'"
+No 'hugo'
+
+➜ ./setup.sh >/dev/null 2>&1
+➜ command -v hugo >/dev/null 2>&1 || echo "No 'hugo'"
+➜ ./setup.sh 2>&1 | grep -c "recipe for target 'build' failed"
+1
+```
+
 -------------------
 
 ## Author
