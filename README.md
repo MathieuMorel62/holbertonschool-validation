@@ -1,4 +1,7 @@
-# Holbertonschool Validation
+# <p align=center>Holbertonschool Validation</p>
+
+<img src="https://camo.githubusercontent.com/65f00c4f146b2c20e3c6ae1abc7501a4937e1fb54239fcc41860da0c59d27e56/68747470733a2f2f6d69726f2e6d656469756d2e636f6d2f6d61782f333030302f312a6d717630334b726c47354c4b325855317556344c4a672e676966" width="100%">
+
 ## Introduction to DevOps: Automate Everything to Focus on What Really Matters.
 
 ## Prerequisites
