@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Install required packages
-sudo apt-get update && apt-get install -y curl make
+apt-get update && apt-get install -y apt-get
+apt-get update && apt-get install -y curl make
 
 # Install Hugo
 curl -LO https://github.com/gohugoio/hugo/releases/download/v0.111.3/hugo_0.111.3_Linux-ARM64.tar.gz
