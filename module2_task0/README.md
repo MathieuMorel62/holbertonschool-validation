@@ -6,6 +6,12 @@
   
 Awesome API is a simple HTTP web server written in the Golang language. It listens to incoming HTTP requests on localhost:9999.
 
+## Prerequisites
+
+- Golang v1.15.*
+- NPM v7+ with NodeJS v14.*
+- Python3
+
 ## Features
 
 - Responds with `404 Not Found` for the root path (e.g. `http://localhost:9999/`)
