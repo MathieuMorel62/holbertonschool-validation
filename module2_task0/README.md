@@ -79,7 +79,7 @@ func HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
-## Makefile Usage
+## Lifecycle
 
 The project includes a `Makefile` to automate the life-cycle of the application. The following targets are available:
 
