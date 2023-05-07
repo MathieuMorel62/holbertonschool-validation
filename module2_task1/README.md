@@ -1,6 +1,6 @@
 # <p align=center>Testing in the Software Development Methodology</p>
 
-<img src="https://user-images.githubusercontent.com/113856302/236673370-58c63d54-f6da-41be-891c-522db6b9addc.png" width="100%">
+<img src="https://user-images.githubusercontent.com/113856302/236678041-6e1995f4-6f2d-4bbc-b086-a8aa071c05d3.png" width="100%">
 
 ## Awesome API
   
