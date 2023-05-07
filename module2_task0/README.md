@@ -1,5 +1,7 @@
 # <p align=center>Testing in the Software Development Methodology</p>
 
+<img src="https://user-images.githubusercontent.com/113856302/236673370-58c63d54-f6da-41be-891c-522db6b9addc.png" width="100%">
+
 ## Awesome API
   
 Awesome API is a simple HTTP web server written in the Golang language. It listens to incoming HTTP requests on localhost:9999.
