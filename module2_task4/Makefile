@@ -1,6 +1,6 @@
 .PHONY: build clean post check validate help 
 
-build: ## Builds the website with Hugo and generates the files
+build: check ## Builds the website with Hugo and generates the files
 	hugo -d dist/
 
 clean: ## Deletes all files on dist directory
@@ -18,4 +18,4 @@ validate: ## Validate the generated HTML using Holberton's W3C Validator
 	@python3 w3c_validator.py dist/index.html || true
 	
 help: ## Displays the list of targets and their use
-	@grep -E -i [a-z]+:.# Makefile | tr -d '##'
+	@grep -E -i ^[a-z] Makefile | sed 's/ check//' | tr -d '##' | sort
