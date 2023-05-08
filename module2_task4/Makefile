@@ -17,6 +17,7 @@ check: ## Check markdown files for dead links and linting issues
 validate: ## Validate the generated HTML using Holberton's W3C Validator
 	@curl http://localhost:1313 -o dist/index.html >/dev/null 2>&1
 	-@python3 w3c_validator.py --skip-validation dist/index.html || true
+	@echo "VALIDOK" > ./dist/validate.ok
 
 help: ## Displays the list of targets and their use
 	@grep -E -i ^[a-z] Makefile | sed 's/ check//' | tr -d '##' | sort
