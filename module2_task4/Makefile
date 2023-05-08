@@ -15,7 +15,7 @@ check: ## Check markdown files for dead links and linting issues
 	@find content/posts -name '*.md' -exec markdown-link-check {} \;
 
 validate: ## Validate the generated HTML using Holberton's W3C Validator
-	@python3 w3c_validator.py dist/index.html || true
+	@w3c_validator dist/*.html || true
 
 help: ## Displays the list of targets and their use
 	@grep -E -i ^[a-z] Makefile | sed 's/ check//' | tr -d '##' | sort
