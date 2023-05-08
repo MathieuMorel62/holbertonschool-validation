@@ -95,3 +95,33 @@ func Test_server(t *testing.T) {
     })
   }
 }
+func Test_setupRouter(t *testing.T) {
+  r := setupRouter()
+
+  // Test that the /health endpoint returns a 200 status code
+  req, _ := http.NewRequest("GET", "/health", nil)
+  rr := httptest.NewRecorder()
+  r.ServeHTTP(rr, req)
+
+  if status := rr.Code; status != http.StatusOK {
+    t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusOK)
+  }
+
+  // Test that the /hello endpoint returns a 400 status code with an empty name parameter
+  req, _ = http.NewRequest("GET", "/hello?name=", nil)
+  rr = httptest.NewRecorder()
+  r.ServeHTTP(rr, req)
+
+  if status := rr.Code; status != http.StatusBadRequest {
+    t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusBadRequest)
+  }
+
+  // Test that the /hello endpoint returns a 200 status code with a non-empty name parameter
+  req, _ = http.NewRequest("GET", "/hello?name=Holberton", nil)
+  rr = httptest.NewRecorder()
+  r.ServeHTTP(rr, req)
+
+  if status := rr.Code; status != http.StatusOK {
+    t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusOK)
+  }
+}
