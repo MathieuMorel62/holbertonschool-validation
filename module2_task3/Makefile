@@ -25,4 +25,4 @@ unit-tests: ## Run Golang unit tests with code coverage
 	@go test -v -short -coverprofile=coverage-units.out
 
 integration-tests: ## Run Golang integration tests with code coverage
-	@go test -short=false -coverprofile=coverage-integrations.out
+	go test -tags=integration -v -short=false -coverprofile=coverage-integrations.out ./...
