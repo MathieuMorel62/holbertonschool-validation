@@ -56,6 +56,19 @@ Here are some examples of how you can customize and configure your generated web
 - Add images or other static files by placing them in the `static/` directory.
 - Customize the site's presentation template by modifying files in the `layouts/` directory.
 
+## Targets
+
+The following targets are available in the Makefile:
+  
+- `build`: Builds the website with Hugo and generates the files.
+- `clean`: Deletes all files in the dist directory.
+- `post`: Creates a new publication file in the content/posts/ directory with a specified name and title.
+- `check`: Checks markdown files for dead links and linting issues.
+- `validate`: Validates the generated HTML using Holberton's W3C Validator.
+- `help`: Displays the list of targets and their use.
+  
+To execute a target, run `make <target_name>` in the terminal.
+
 ## Result
 
 After running the `setup.sh` script, the generated website will be available in the `./dist` directory. You can now deploy this site to a server of your choice.
