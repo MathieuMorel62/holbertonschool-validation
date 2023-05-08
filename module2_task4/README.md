@@ -56,7 +56,7 @@ Here are some examples of how you can customize and configure your generated web
 - Add images or other static files by placing them in the `static/` directory.
 - Customize the site's presentation template by modifying files in the `layouts/` directory.
 
-## Targets
+## Lifecycle
 
 The following targets are available in the Makefile:
   
