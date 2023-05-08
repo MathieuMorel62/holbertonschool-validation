@@ -16,7 +16,7 @@ check: ## Check markdown files for dead links and linting issues
 
 validate: ## Validate the generated HTML using Holberton's W3C Validator
 	@echo "Downloading HTML..."
-	@w3m -dump_source http://localhost:1313 > dist/index.html
+	@curl http://localhost:1313 -o dist/index.html >/dev/null 2>&1
 	@echo "Validating HTML..."
 	@python3 w3c_validator.py dist/index.html || echo "VALIDFAIL"
 
