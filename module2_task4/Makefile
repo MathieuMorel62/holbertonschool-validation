@@ -15,9 +15,7 @@ check: ## Check markdown files for dead links and linting issues
 	@find content/posts -name '*.md' -exec markdown-link-check {} \;
 
 validate: ## Validate the generated HTML using Holberton's W3C Validator
-	@echo "Downloading HTML..."
-	@curl http://localhost:1313 -o dist/index.html >/dev/null 2>&1
-	@echo "Validating HTML..."
+	@curl -f http://localhost:1313 -o dist/index.html >/dev/null 2>&1
 	@python3 w3c_validator.py dist/index.html || echo "VALIDFAIL"
 
 help: ## Displays the list of targets and their use
