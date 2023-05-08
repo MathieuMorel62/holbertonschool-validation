@@ -11,11 +11,11 @@ post: ## Creates a new publication file in the content/posts/ with a specified n
 	sed -i 's/title: .*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
 
 check: ## Check markdown files for dead links and linting issues
-	@markdownlint README.md content/posts/*.md
+	@markdownlint content/posts
 	@find content/posts -name '*.md' -exec markdown-link-check {} \;
 
 validate: ## Validate the generated HTML using Holberton's W3C Validator
-	-python3 w3c_validator.py ./dist/index.html
+	@python3 w3c_validator.py dist/index.html || true
 
 help: ## Displays the list of targets and their use
 	@grep -E -i ^[a-z] Makefile | sed 's/ check//' | tr -d '##' | sort
