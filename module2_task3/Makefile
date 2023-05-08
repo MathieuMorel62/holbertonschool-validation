@@ -1,20 +1,20 @@
 .PHONY: build run stop clean test help
 
 lint: ## Run static analysis on the source code using golangci-lint
-	golangci-lint run
+	@golangci-lint run
 
 build: lint ## Compile the source code of the application
-	go build -o awesome-api
+	@go build -o awesome-api
 
 run: ## Run the application in the background and write logs to awesome-api.log
-	./awesome-api >./awesome-api.log 2>&1 &
+	@./awesome-api >./awesome-api.log 2>&1 &
 
 stop: ## Stop the running application
-	pkill awesome-api
+	@pkill awesome-api
 
 clean: ## Stop the application and delete the binary and log files
-	$(MAKE) stop || true
-	rm -rf awesome-api awesome-api.log coverage-units.out coverage-integrations.out
+	@$(MAKE) stop || true
+	@rm -rf awesome-api awesome-api.log coverage-units.out coverage-integrations.out
 
 test: unit-tests integration-tests ## Test the application by running unit tests and making requests
 
@@ -23,6 +23,7 @@ help: ## Displays the list of targets and their use
 
 unit-tests: ## Run Golang unit tests with code coverage
 	@go test -v -short -coverprofile=coverage-units.out
+	@go tool cover -func=coverage-units.out
 
 integration-tests: ## Run Golang integration tests with code coverage
-	go test -tags=integration -v -short=false -coverprofile=coverage-integrations.out ./...
+	@go test -tags=integration -v -short=false -coverprofile=coverage-integrations.out ./...
