@@ -31,7 +31,37 @@ func Test_server(t *testing.T) {
       URI:          "/hello?name=Holberton",
       responseCode: 200,
       body:         "Hello Holberton!",
-    },   
+    },
+    {
+      name:         "Health page",
+      URI:          "/health",
+      responseCode: 200,
+      body:         "ALIVE",
+    },
+    {
+      name:         "Hello page",
+      URI:          "/hello?name=Holberton",
+      responseCode: 200,
+      body:         "Hello Holberton!",
+    },
+    {
+      name:         "Home page",
+      URI:          "",
+      responseCode: 404,
+      body:         "404 page not found\n",
+    },
+    {
+      name:         "Hello page with empty name value",
+      URI:          "/hello?name=",
+      responseCode: 400,
+      body:         "",
+    },
+    {
+      name:         "Empty name value",
+      URI:          "/hello?name=",
+      responseCode: 400,
+      body:         "",
+    },
   }
 
   for _, tt := range tests {
@@ -64,74 +94,4 @@ func Test_server(t *testing.T) {
       }
     })
   }
-}
-
-func Test_setupRouter(t *testing.T) {
-	r := setupRouter()
-
-	t.Run("GET /hello", func(t *testing.T) {
-		req, err := http.NewRequest("GET", "/hello?name=Holberton", nil)
-		if err != nil {
-			t.Fatal(err)
-		}
-
-		rr := httptest.NewRecorder()
-		r.ServeHTTP(rr, req)
-
-		expectedCode := http.StatusOK
-		if status := rr.Code; status != expectedCode {
-			t.Errorf("handler returned wrong status code: got %v want %v",
-				status, expectedCode)
-		}
-
-		expectedBody := "Hello Holberton!"
-		if rr.Body.String() != expectedBody {
-			t.Errorf("handler returned unexpected body: got %v want %v",
-				rr.Body.String(), expectedBody)
-		}
-	})
-
-	t.Run("GET /health", func(t *testing.T) {
-		req, err := http.NewRequest("GET", "/health", nil)
-		if err != nil {
-			t.Fatal(err)
-		}
-
-		rr := httptest.NewRecorder()
-		r.ServeHTTP(rr, req)
-
-		expectedCode := http.StatusOK
-		if status := rr.Code; status != expectedCode {
-			t.Errorf("handler returned wrong status code: got %v want %v",
-				status, expectedCode)
-		}
-
-		expectedBody := "ALIVE"
-		if rr.Body.String() != expectedBody {
-			t.Errorf("handler returned unexpected body: got %v want %v",
-				rr.Body.String(), expectedBody)
-		}
-	})
-
-	t.Run("GET /", func(t *testing.T) {
-		req, err := http.NewRequest("GET", "/", nil)
-		if err != nil {
-			t.Fatal(err)
-		}
-
-		rr := httptest.NewRecorder()
-		r.ServeHTTP(rr, req)
-
-		expectedCode := http.StatusNotFound
-		if status := rr.Code; status != expectedCode {
-			t.Errorf("handler returned wrong status code: got %v want %v",
-				status, expectedCode)
-		}
-
-		expectedBody := "404 page not found\n"
-		if rr.Body.String() != expectedBody {
-			t.Errorf("handler returned unexpected body: got %v want %v",
-				rr.Body.String(), expectedBody)
-		}
-	})
 }
