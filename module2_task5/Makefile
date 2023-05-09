@@ -3,13 +3,13 @@
 lint: ## Run static analysis on the Go source code using golangci-lint
 	@golangci-lint run
 
-go-build: lint ## Compile the Go source code of the application
+go-build: ## Compile the Go source code of the application
 	@go build -o awesome-api
 
 hugo-build: check ## Builds the website with Hugo and generates the files
 	hugo -d dist/
 
-build: go-build hugo-build ## Compile both the Go application and Hugo website
+build: lint go-build hugo-build ## Compile both the Go application and Hugo website
 
 run: ## Run the Go application in the background and write logs to awesome-api.log
 	@./awesome-api >./awesome-api.log 2>&1 &
@@ -25,7 +25,7 @@ clean: ## Stop the application, delete the binary, log, coverage files, and Hugo
 test: unit-tests integration-tests ## Run both unit and integration tests for the Go application
 
 help: ## Displays the list of targets and their use
-	@grep -E -i ^[a-z] Makefile | sed 's/ markdown-check markdown-link-check//' | sed 's/ check//' | sed 's/ go-build hugo-build//'| sed 's/ lint//' | sed 's/ unit-tests integration-tests//' | tr -d '##' | sort
+	@grep -E -i ^[a-z] Makefile | sed 's/ markdown-check markdown-link-check//' | sed 's/ check//' | sed 's/ lint go-build hugo-build//' | sed 's/ unit-tests integration-tests//' | tr -d '##' | sort
 
 unit-tests: ## Run Golang unit tests with code coverage
 	@go test -v -short -coverprofile=coverage-units.out
