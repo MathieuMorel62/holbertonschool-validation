@@ -304,6 +304,248 @@ No 'hugo'
 
 -----------------
 
+# <p align=center>Testing in the Software Development Methodology</p>
+<img src="https://www.mindinventory.com/blog/wp-content/uploads/2022/10/golang.gif" width="100%">
+
+## Learning Objectives
+
+This project aims at practicing with automated tests. The goal is to understand the pros and cons of different testing methods to be able to understand the value of doing, or not doing, a kind of test.
+  
+After this project, you should be able to:
+  
+- Understand what linting is the extent of its usages (which kind of file can be linted, and the impact of running it often)
+- Understand the difference between unit tests and integration tests
+- Use code coverage as a helper to write tests
+- Understand that not only “classical” code is to be tested, but also a lot of the artifacts we can generate
+- Understand how “component”-based testing for acceptance and end to end validation is to be used
+
+## Prerequisites
+
+The following elements are required In addition to the previous module (**“Module 1: Introduction to DevOps: Automate Everything to Focus on What Really Matters”**) prerequisites.
+  
+## Concepts
+You should have a basic knowledge on the following concepts:
+
+- What a compiled language is (C/C#/Golang/Rust/etc.)
+
+  - Generation process from source to executable binary
+  - Basic types: string, integer, boolean, maps, arrays
+  - Basic algorithmic: loops, conditional, functions
+- Installing command line tools with NPM (in addition to package managers)
+  
+- Understand the basics of the HTTP protocol (client/server, verbs, headers)
+
+## Tooling
+This project needs the following tools / services:
+
+- Same tools as previous module
+- [Golang](https://go.dev) in `v1.15.*`
+- [NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) v7+ with [NodeJS](https://nodejs.org/en/download) `v14.*` (stable)
+- [Python 3 with pip module](https://docs.python.org/3/installing/index.html)
+- [golangci-lint](https://github.com/golangci/golangci-lint)
+
+## Story
+
+Following the previous module situation, you are now able to build and deploy the static website for the company Awesome Inc. in an automated way.
+  
+As the communication team is happy with your work, you’ve been tasked to add an HTTP API to improve the website.
+  
+You want to ensure that the shipped software is without bugs. You’ll test each component of this new website to ensure that there will be no regression in the future, and to make sure that any refactoring or change can be done with confidence.
+  
+The API is written in the [Golang](https://go.dev) language but there is no need to be familiar with the language.
+  
+While the production team is building the new production platform for the website, you’ve been tasked to create an HTTP API application to add new features.
+  
+As we are in a “DevOps” course, your “Ops” personality expects that this application is monitored by a “Health” page to determine if the application is running and ready to accept traffic.
+  
+## Reference Readings
+
+- [https://tour.golang.org/welcome/1](https://go.dev/tour/welcome/1)
+- [http://martinfowler.com/bliki/UnitTest.html](https://martinfowler.com/bliki/UnitTest.html)
+- [https://en.wikipedia.org/wiki/Software_testing](https://en.wikipedia.org/wiki/Software_testing)
+- [http://martinfowler.com/tags/testing.html](https://martinfowler.com/tags/testing.html)
+- [http://martinfowler.com/bliki/TestCoverage.html](https://martinfowler.com/bliki/TestCoverage.html)
+- [http://martinfowler.com/bliki/TestDrivenDevelopment.html](https://martinfowler.com/bliki/TestDrivenDevelopment.html)
+- [https://curl.se/docs/manpage.html](https://curl.se/docs/manpage.html)
+- [https://linux.die.net/man/1/pgrep](https://linux.die.net/man/1/pgrep)
+- [https://github.com/igorshubovych/markdownlint-cli](https://github.com/igorshubovych/markdownlint-cli)
+- [https://go.dev/dl/](https://go.dev/dl/)
+- [https://github.com/golangci/golangci-lint](https://github.com/golangci/golangci-lint)
+- [https://go.dev/pkg/io/#WriteString](https://pkg.go.dev/io#WriteString)
+- [https://golangdocs.com/blank-identifier-in-golang](https://golangdocs.com/blank-identifier-in-golang)
+- [https://blog.golang.org/error-handling-and-go](https://go.dev/blog/error-handling-and-go)
+- [https://www.gnu.org/software/make/manual/html_node/Automatic-Prerequisites.html](https://www.gnu.org/software/make/manual/html_node/Automatic-Prerequisites.html)
+- [https://docs.python.org/3/installing/index.html](https://docs.python.org/3/installing/index.html)
+- [https://nodejs.org/en/download/](https://nodejs.org/en/download)
+- [https://docs.npmjs.com/downloading-and-installing-node-js-and-npm/](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+- [https://github.com/hs-hq/W3C-Validator](https://github.com/hs-hq/W3C-Validator)
+- [https://www.npmjs.com/package/markdown-link-check](https://www.npmjs.com/package/markdown-link-check)
+- [https://github.com/igorshubovych/markdownlint-cli](https://github.com/igorshubovych/markdownlint-cli)
+- [https://golangdocs.com/blank-identifier-in-golang](https://golangdocs.com/blank-identifier-in-golang)
+- [https://go.dev/pkg/io/#WriteString](https://pkg.go.dev/io#WriteString)
+- [https://github.com/golangci/golangci-lint](https://github.com/golangci/golangci-lint)
+
+--------------------
+## Tasks
+
+
+### [0. Build an Application using Make](https://github.com/MathieuMorel62/holbertonschool-validation/tree/main/module2_task0)
+
+Let’s start with a simple HTTP web server written in the [Golang](https://go.dev) language.
+  
+This HTTP webserver is expected to listen to incoming HTTP requests on `localhost:9999`:
+  
+- If a request hits the path `/` (e.g. `http://localhost:9999/` or `http://localhost:9999`) then you expect a `404 Not Found` (the homepage is not implemented in this task)
+- If a request hits the path `/health` (e.g. `http://localhost:9999/health`) then you expect the server to answer `ALIVE` if it is up and running
+  
+With [Golang](https://go.dev) installed in your environment, initialize a new project:
+
+```bash
+## Create an empty directory and go into
+mkdir awesome-api
+cd awesome-api
+
+## Initialize the Golang project with a custom identifier
+go mod init github.com/<your github handle>/awesome-api
+```
+  
+Then, create a file named `main.go` with the following content which is the Golang source code of the application:
+
+```go
+package main
+
+import (
+  "fmt"
+  "io"
+  "log"
+  "net/http"
+  "os"
+
+  "github.com/gorilla/mux"
+)
+
+func main() {
+  httpAddr := "0.0.0.0:9999"
+  if port := os.Getenv("PORT"); port != "" {
+    httpAddr = "0.0.0.0:" + port
+  }
+  fmt.Println("HTTP Server listening on", httpAddr)
+
+  // Start an HTTP server using the custom router
+  log.Fatal(http.ListenAndServe(httpAddr, setupRouter()))
+}
+
+func setupRouter() *mux.Router {
+  // Create a new empty HTTP Router
+  r := mux.NewRouter()
+
+  // When an HTTP GET request is received on the path /health, delegates to the function "HealthCheckHandler()"
+  r.HandleFunc("/health", HealthCheckHandler).Methods("GET")
+
+  return r
+}
+
+func HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
+  // Print a line in the logs
+  fmt.Println("HIT: healthcheck")
+
+  // Write the string "ALIVE" into the response's body
+  io.WriteString(w, "ALIVE")
+
+  // End of the function: return HTTP 200 by default
+}
+```
+
+#### Project Life-cycle
+
+The life-cycle of this project is the following:
+  
+- “build”: compile the source code of the application to a binary named `awesome-api` (the name `awesome-api` comes from the command `go mod init github.com/<your github handle>/awesome-api`) with the command `go build`. The first build may takes some times.
+
+- “run”: Run the application in background by executing the binary `awesome-api`, and write logs into a file named `awesome-api.log` with the command `./awesome-api >./awesome-api.log 2>&1 &`.
+
+- “stop”: Stop the application with the command `kill XXXXX` where `XXXXX` is the Process ID of the application. For instance: `kill "$(pgrep awesome-api)"`.
+
+- “clean”: Stop the application. Delete the binary `awesome-api` and the log file `awesome-api.log`
+
+- “test”: You want to test it to ensure that it behaves as expected. With the application started, you may want to use the command line `curl` (or your web browser, or the command `wget` or any other HTTP client):
+
+```bash
+➜ curl http://localhost:9999
+404 Page Not Found
+➜ curl http://localhost:9999/health
+ALIVE
+```
+   
+Please note that you should have a line `HIT: healtcheck` in the application’s log (file `./awesome-api.log`) for each time you make a request to `http://localhost:9999/health`.
+
+#### Requirements
+
+You are expected to write a `Makefile` to automate the life-cycle of this application:
+
+- A `Makefile` should be present and valid
+- The binary `awesome-api` must NOT exist at the beginning, in the source code
+- The goals `build`, `run`, `stop`, `clean` `test` should be implemented and mapped to the life-cycle stages of the same name:
+
+```makefile
+➜ ls -1 ./awesome-api ./awesome-api.log
+ls: ./awesome-api: No such file or directory
+ls: ./awesome-api.log: No such file or directory
+
+➜ make build
+➜ ls -1 ./awesome-api ./awesome-api.log
+ls: ./awesome-api.log: No such file or directory
+./awesome-api
+
+➜ make test
+# ...
+curl: (7) Failed to connect to localhost port 9999: Connection refused
+# ...
+curl: (7) Failed to connect to localhost port 9999: Connection refused
+
+➜ make run
+➜ ls -1 ./awesome-api ./awesome-api.log
+./awesome-api
+./awesome-api.log
+➜ cat ./awesome-api.log
+HTTP Server listening on localhost:9999
+
+➜ make test
+# ...
+404 page not found
+# ...
+ALIVE
+➜ cat ./awesome-api.log
+HTTP Server listening on localhost:9999
+HIT: healtcheck
+
+➜ make stop
+➜ make test
+# ...
+curl: (7) Failed to connect to localhost port 9999: Connection refused
+# ...
+curl: (7) Failed to connect to localhost port 9999: Connection refused
+
+➜ make clean
+➜ ls -1 ./awesome-api ./awesome.log
+ls: ./awesome-api: No such file or directory
+ls: ./awesome-api.log: No such file or directory
+```
+
+- The goal `make help` must be implemented and print a list of all the goals with a sentence each:
+
+```makefile
+➜ make help
+help: ...
+build: ...
+clean: ...
+run: ....
+```
+
+- ⚠️ Do not forget the documentation: `README.md` file, Makefile commands, `make help` target ?
+ 
+--------------------
+
 ## AUTHOR
 
 - Mathieu Morel
