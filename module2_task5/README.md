@@ -1,10 +1,10 @@
 # <p align=center>Testing in the Software Development Methodology</p>
 
-<img src="https://user-images.githubusercontent.com/113856302/236690862-748ccc2d-58a0-4ebd-a5a3-26d2fb46fae4.png" width="100%">
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVsl6prdeadeQAwTiA8M28QtyNgsEmdij-yQ&usqp=CAU" width="100%">
 
-## Awesome API
+## Awesome API with Static Website
   
-Awesome API is a simple HTTP web server written in the Golang language. It listens to incoming HTTP requests on localhost:9999.
+This project integrates the Golang API with the static website built using Hugo. The application serves both the API web service and the static website from a single web service. The /hello endpoint is integrated with the static website allowing users to input their name and receive a personalized greeting. The application serves the static files from the ./dist/ directory.
 
 ## Prerequisites
 
@@ -12,170 +12,45 @@ Awesome API is a simple HTTP web server written in the Golang language. It liste
 - NPM v7+ with NodeJS v14.*
 - Python3
 
-## Features
 
-- Responds with `404 Not Found` for the root path (e.g. `http://localhost:9999/`)
-- Responds with `ALIVE` for the `/health` path (e.g. `http://localhost:9999/health`)
-- Responds with `Hello <name>!` for the `/hello` path with a `name` parameter (e.g. `http://localhost:9999/hello?name=John`)
+## Usage
 
-## Project Setup
+To build and run the application, use the following commands:
 
-1. Create an empty directory and navigate to it:
-
-```bash
-mkdir awesome-api
-cd awesome-api
+```makefile
+$ make build
+$ make run
+```
+  
+Then, visit http://localhost:9999/posts/welcome/ to test the "Say Hello" feature.
+   
+To stop the application, run:
+  
+```makefile
+$ make stop
 ```
 
-2. Initialize the Golang project with a custom identifier:
+To clean up the generated files, run:
 
-```go
-go mod init github.com/<your github handle>/awesome-api
-```
-
-3. Create a `main.go` file with the provided Golang source code.
-
-```go
-package main
-
-import (
-  "fmt"
-  "io"
-  "log"
-  "net/http"
-  "os"
-
-  "github.com/gorilla/mux"
-)
-
-func main() {
-  httpAddr := "0.0.0.0:9999"
-  if port := os.Getenv("PORT"); port != "" {
-    httpAddr = "0.0.0.0:" + port
-  }
-  fmt.Println("HTTP Server listening on", httpAddr)
-
-  // Start an HTTP server using the custom router
-  log.Fatal(http.ListenAndServe(httpAddr, setupRouter()))
-}
-
-func setupRouter() *mux.Router {
-  // Create a new empty HTTP Router
-  r := mux.NewRouter()
-
-  // When an HTTP GET request is received on the path /health, delegates to the function "HealthCheckHandler()"
-  r.HandleFunc("/health", HealthCheckHandler).Methods("GET")
-
-  return r
-}
-
-func HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
-  // Print a line in the logs
-  fmt.Println("HIT: healthcheck")
-
-  // Write the string "ALIVE" into the response's body
-  _, _ = io.WriteString(w, "ALIVE")
-
-  // End of the function: return HTTP 200 by default
-}
-```
-
-4. Create a new file named main_integration_test.go with the following content:
-
-```go
-package main
-
-import (
-  //nolint:staticcheck
-  "io/ioutil"
-  "net/http"
-  "net/http/httptest"
-  "testing"
-)
-
-func Test_server(t *testing.T) {
-  if testing.Short() {
-    t.Skip("Flag `-short` provided: skipping Integration Tests.")
-  }
-
-  tests := []struct {
-    name         string
-    URI          string
-    responseCode int
-    body         string
-  }{
-    {
-      name:         "Home page",
-      URI:          "",
-      responseCode: 404,
-      body:         "404 page not found\n",
-    },
-    {
-      name:         "Hello page",
-      URI:          "/hello?name=Holberton",
-      responseCode: 200,
-      body:         "Hello Holberton!",
-    },
-    {
-      name:         "Health check",
-      URI:          "/health",
-      responseCode: 200,
-      body:         "ALIVE",
-    },
-    {
-      name:         "Hello page without name parameter",
-      URI:          "/hello",
-      responseCode: 200,
-      body:         "Hello there!",
-    },
-  }
-
-  for _, tt := range tests {
-    t.Run(tt.name, func(t *testing.T) {
-      ts := httptest.NewServer(setupRouter())
-      defer ts.Close()
-
-      res, err := http.Get(ts.URL + tt.URI)
-      if err != nil {
-        t.Fatal(err)
-      }
-
-      // Check that the status code is what you expect.
-      expectedCode := tt.responseCode
-      gotCode := res.StatusCode
-      if gotCode != expectedCode {
-        t.Errorf("handler returned wrong status code: got %q want %q", gotCode, expectedCode)
-      }
-
-      // Check that the response body is what you expect.
-      expectedBody := tt.body
-      bodyBytes, err := ioutil.ReadAll(res.Body)
-      res.Body.Close()
-      if err != nil {
-        t.Fatal(err)
-      }
-      gotBody := string(bodyBytes)
-      if gotBody != expectedBody {
-        t.Errorf("handler returned unexpected body: got %q want %q", gotBody, expectedBody)
-      }
-    })
-  }
-}
+```makefile
+$ make clean
 ```
 
 ## Lifecycle
 
 The project includes a `Makefile` to automate the life-cycle of the application. The following targets are available:
 
-- `build`: Compile the source code of the application
-- `run`: Run the application in the background and write logs to `awesome-api.log`
-- `stop`: Stop the running application
-- `clean`: Stop the application and delete the binary and log files
-- `test`: Test the application by making requests to `/` and `/health`
 - `help`: Display a list of available targets and their usage
+- `build`: Compile both the Go application and Hugo website
+- `run`: Run the application in the background and write logs to awesome-api.log
+- `stop`: Stop the running application
 - `lint`: Run static analysis on the source code using golangci-lint
-- `unit-tests`: Run the unit tests of the application
-- `integration-tests`: Run the integration tests of the application
+- `test`: Test the application by running unit tests, integration tests, and validate
+- `unit-tests`: Run the unit tests of the application with code coverage
+- `integration-tests`: Run the integration tests of the application with code coverage
+- `check`: Check markdown files for dead links and linting issues
+- `clean`: Stop the application and delete the binary, log, coverage files, and Hugo website build
+- `post`: Create a new publication file in the content/posts/ directory with a specified name and title
 
 ### Example
 
@@ -183,14 +58,17 @@ The project includes a `Makefile` to automate the life-cycle of the application.
 $ make help
 
 help: Display a list of available targets and their usage
-build: Compile the source code of the application
-clean: Stop the application and delete the binary and log files
+build: Compile both the Go application and Hugo website
+clean: Stop the application and delete the binary, log, coverage files, and Hugo website build
 run: Run the application in the background and write logs to awesome-api.log
 stop: Stop the running application
-test: Test the application by making requests to / and /health
+test: Test the application by running unit tests, integration tests, and validate
 lint: Run static analysis on the source code using golangci-lint
-unit-tests: Run the unit tests of the application
-integration-tests: Run the integration tests of the application
+unit-tests: Run the unit tests of the application with code coverage
+integration-tests: Run the integration tests of the application with code coverage
+check: Check markdown files for dead links and linting issues
+post: Create a new publication file in the content/posts/ directory with a specified name and title
+
 ```
 
 # Author
