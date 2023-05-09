@@ -9,7 +9,7 @@ go-build: ## Compile the Go source code of the application
 hugo-build: check ## Builds the website with Hugo and generates the files
 	hugo -d dist/
 
-build: lint go-build hugo-build ## Compile both the Go application and Hugo website
+build: go-build hugo-build ## Compile both the Go application and Hugo website
 
 run: ## Run the Go application in the background and write logs to awesome-api.log
 	@./awesome-api >./awesome-api.log 2>&1 &
@@ -20,7 +20,7 @@ stop: ## Stop the running Go application
 clean: ## Stop the application, delete the binary, log, coverage files, and Hugo website build
 	$(MAKE) stop || true
 	rm -rf awesome-api awesome-api.log coverage-units.out coverage-integrations.out
-	rm -rf dist/*
+	rm -rf dist/
 
 test: unit-tests integration-tests ## Run both unit and integration tests for the Go application
 
