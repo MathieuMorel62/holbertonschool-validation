@@ -34,6 +34,11 @@ jobs:
           cd ./module3_task2
           make integration-tests
 
+      - name: Run validate
+        run: |
+          cd ./module3_task2
+          make validate
+
       - name: Setup environment
         run: |
           cd ./module3_task2
