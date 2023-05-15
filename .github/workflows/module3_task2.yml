@@ -1,3 +1,4 @@
+---
 name: module3_task2
 
 'on':
@@ -18,34 +19,40 @@ jobs:
       - name: Install markdownlint
         run: npm install -g markdownlint-cli
 
+      - name: Lint
+        run: |
+          cd ./module3_task2
+          make lint
+
+      - name: Run unit tests
+        run: |
+          cd ./module3_task2
+          make unit-tests
+
+      - name: Run integration-tests
+        run: |
+          cd ./module3_task2
+          make integration-tests
+
+      - name: Run validate
+        run: |
+          cd ./module3_task2
+          make validate
+
       - name: Setup environment
         run: |
           cd ./module3_task2
           ./setup.sh
 
-      - name: Build
+      - name: Run Build
         run: |
+          cd ./module3_task2
           make build
 
-      - name: Lint
+      - name: Run Package
         run: |
-          make lint
-
-      - name: Run unit tests
-        run: |
-          make unit-tests
-
-      - name: Run integration tests
-        run: |
-          make integration-tests
-
-      - name: Package
-        run: |
+          cd ./module3_task2
           make package
-
-      - name: Validate
-        run: |
-          make validate
 
       - name: Archive package
         uses: actions/upload-artifact@v2
