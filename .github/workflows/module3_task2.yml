@@ -24,6 +24,11 @@ jobs:
           cd ./module3_task2
           make lint
 
+      - name: Run unit tests
+        run: |
+          cd ./module3_task2
+          make unit-tests
+
       - name: Setup environment
         run: |
           cd ./module3_task2
