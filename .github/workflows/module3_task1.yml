@@ -16,6 +16,10 @@ jobs:
 
       - name: Setup environment
         run: |
-          cd module3_task1
+          cd ./module3_task1
           ./setup.sh
+
+      - name: Build
+        run: |
+          cd ./module3_task1
           make build
