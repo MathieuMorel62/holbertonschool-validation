@@ -1,50 +1,51 @@
-.PHONY: help build go-build hugo-build run stop lint test unit-tests integration-tests validate clean post
+GO=go
+TARGET=awesome-api
+RM=rm -rf
+MAKE=make
+COVERAGE=coverage
+HUGO=hugo
 
-lint: ## Run static analysis on the Go source code using golangci-lint
-	@golangci-lint run
+build:	## Generate the source code of the application to a binary.
+	$(MAKE) lint
+	$(GO) mod tidy
+	$(MAKE) check && $(HUGO) && $(GO) build -o $(TARGET)
 
-go-build: ## Compile the Go source code of the application
-	@go build -o awesome-api
+run:	## Run the application in background by executing the binary.
+	./$(TARGET) >./$(TARGET).log 2>&1 &
 
-hugo-build: check ## Builds the website with Hugo and generates the files
-	hugo -d dist/
+post:	## Create a new blog post whose filename and title come from the environment variables POST_TITLE and POST_NAME
+	$(HUGO) new posts/$(POST_NAME).md
+	sed -i '2s/.*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
 
-build: go-build hugo-build ## Compile both the Go application and Hugo website
+stop:	## Stop the application.
+	@pkill $(TARGET)
 
-run: ## Run the Go application in the background and write logs to awesome-api.log
-	@./awesome-api >./awesome-api.log 2>&1 &
+clean:	## Stop the application. Delete the binary and the log file.
+	@if pgrep -x $(TARGET) > /dev/null; then \
+		pkill $(TARGET); \
+	fi
+	@$(RM) $(TARGET) $(TARGET).log $(COVERAGE)-units.out $(COVERAGE)-integrations.out dist/ *~
 
-stop: ## Stop the running Go application
-	@pkill awesome-api
+test:	## Test the application.
+	$(MAKE) unit-tests
+	$(MAKE) integration-tests
+	$(MAKE) validate
 
-clean: ## Stop the application, delete the binary, log, coverage files, and Hugo website build
-	$(MAKE) stop || true
-	rm -rf awesome-api awesome-api.log coverage-units.out coverage-integrations.out
-	rm -rf dist/
+unit-tests: ## Run unit tests
+	go test -v -short -coverprofile=$(COVERAGE)-units.out
 
-test: unit-tests integration-tests ## Run both unit and integration tests for the Go application
+integration-tests: ## Run integration tests
+	go test -v -coverprofile=$(COVERAGE)-integrations.out
 
-help: ## Displays the list of targets and their use
-	@grep -E -i ^[a-z] Makefile | sed 's/ markdown-check markdown-link-check//' | sed 's/ check//' | sed 's/ lint go-build hugo-build//' | sed 's/ unit-tests integration-tests//' | tr -d '##' | sort
+lint:	## Lint go lang code
+	golangci-lint run
 
-unit-tests: ## Run Golang unit tests with code coverage
-	@go test -v -short -coverprofile=coverage-units.out
-	@go tool cover -func=coverage-units.out
+check:	## Lint markdonw source, check dead links
+	markdownlint content/**/*.md
+	find content -name \*.md -print0 | xargs -0 -n1 markdown-link-check
 
-integration-tests: ## Run Golang integration tests with code coverage
-	go test -v -coverprofile=coverage-integrations.out
+validate:	## Validate the file dist/index.html using the command line Holberton’s W3C Validator.
+	python3 /opt/W3C-Validator/w3c_validator.py ./dist/index.html || true
 
-check: markdown-check markdown-link-check ## Check markdown files for dead links and linting issues
-
-markdown-check: ## Check markdown files for linting issues using markdownlint
-	markdownlint content/posts
-
-markdown-link-check: ## Check markdown files for dead links using markdown-link-check
-	find content/posts -name '*.md' -exec markdown-link-check {} \;
-
-validate: ## Validate the generated HTML using Holberton's W3C Validator
-	-python3 w3c_validator.py ./dist/index.html || true
-
-post: ## Creates a new publication file in the content/posts/ with a specified name and title
-	hugo new posts/$(POST_NAME).md
-	sed -i 's/title: .*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
+help:	## Show this help usage.
+	@sed -ne '/@sed/!s/## //p' $(MAKEFILE_LIST)
