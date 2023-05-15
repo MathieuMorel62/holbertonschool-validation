@@ -31,12 +31,15 @@ make stop
 
 ## Customizing Log File Location
 
-By default, the application logs are written to `awesome-api.`log in the current directory. To customize the log directory, you can modify the `run` target in the Makefile or provide a command-line argument to specify the log file path.
-
+By default, the application logs are written to `awesome-api.`log in the
+current directory.To customize the log directory, you can modify the `run`
+target in the Makefile
+or provide a command-line argument to specify the log file path.
 
 ## Healthcheck
 
-To quickly verify that the application is running, access the following endpoint:
+To quickly verify that the application is running, access the
+following endpoint:
 
 ```bash
 http://localhost:8080/healthcheck

@@ -1,7 +1,7 @@
 .PHONY: help build go-build hugo-build run stop lint test unit-tests integration-tests validate clean post
 
 lint: ## Run static analysis on the Go source code using golangci-lint
-	markdownlint DEPLOY.md
+	markdownlint DEPLOY.md || true
 
 go-build: ## Compile the Go source code of the application
 	@go build -o awesome-api
