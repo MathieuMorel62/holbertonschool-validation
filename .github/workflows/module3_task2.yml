@@ -29,7 +29,7 @@ jobs:
           make package
 
       - name: Archive package
-        uses: actions/upload-artefact@v2
+        uses: actions/upload-artifact@v2
         with:
           name: awesome-website
           path: ./module3_task2/awesome-website.zip
