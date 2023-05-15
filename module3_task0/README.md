@@ -13,7 +13,19 @@ This project integrates the Golang API with the static website built using Hugo.
 - NPM v7+ with NodeJS v14.*
 - Python3
 
+## Workflow
 
+We use GitHub Actions for our Continuous Integration (CI) workflow. The workflow, named `module3_task0`, is defined in the file `.github/workflows/module3_task0.yml`.
+  
+This workflow is triggered each time there is new code pushed on the repository and once per day. It runs on a virtual machine with Ubuntu 22.04.
+  
+The workflow performs the following steps:
+  
+1. Clone the repository
+2. Execute the command `make help` to validate that the Makefile is present and implements the `help` target.
+  
+A symbolic link named `github-workflow.yml` at the root of the project points to the workflow file.
+  
 ## Usage
 
 To build and run the application, use the following commands:
