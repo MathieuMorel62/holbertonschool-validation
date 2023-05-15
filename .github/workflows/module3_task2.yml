@@ -32,4 +32,4 @@ jobs:
         uses: actions/upload-artefact@v2
         with:
           name: awesome-website
-          path: ./module3_task1/awesome-website.zip
+          path: ./module3_task2/awesome-website.zip
