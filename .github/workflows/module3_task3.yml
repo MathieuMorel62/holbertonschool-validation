@@ -20,6 +20,11 @@ jobs:
       - name: Install markdownlint
         run: npm install -g markdownlint-cli
 
+      - name: Lint
+        run: |
+          cd ./module3_task2
+          make lint
+
       - name: Setup environment
         run: |
           cd ./module3_task3
