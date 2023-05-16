@@ -49,5 +49,5 @@ jobs:
         with:
           repo-token: ${{ secrets.MY_GITHUB_TOKEN }}
           files: |
-            awesome-website.zip
-            DEPLOY.md
+            module3_task3/awesome-website.zip
+            module3_task3/DEPLOY.md
