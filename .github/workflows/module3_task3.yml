@@ -51,6 +51,9 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
 
+      - name: Install markdownlint
+        run: npm install -g markdownlint-cli
+
       - name: Create Package
         run: |
           cd module3_task3
