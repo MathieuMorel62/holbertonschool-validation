@@ -18,8 +18,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install markdownlint
-        run: npm install -g markdownlint-cli
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install markdownlint and markdown-link-check
+        run: npm install -g markdownlint-cli markdown-link-check
+
+      - name: Install Hugo
+        run: |
+          wget https://github.com/gohugoio/hugo/releases/download/v0.87.0/hugo_extended_0.87.0_Linux-64bit.deb
+          sudo dpkg -i hugo_extended_0.87.0_Linux-64bit.deb
 
       - name: Lint
         run: |
@@ -51,8 +61,13 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
 
-      - name: Install markdownlint
-        run: npm install -g markdownlint-cli
+      - name: Install markdownlint and markdown-link-check
+        run: npm install -g markdownlint-cli markdown-link-check
+
+      - name: Install Hugo
+        run: |
+          wget https://github.com/gohugoio/hugo/releases/download/v0.87.0/hugo_extended_0.87.0_Linux-64bit.deb
+          sudo dpkg -i hugo_extended_0.87.0_Linux-64bit.deb
 
       - name: Create Package
         run: |
@@ -66,4 +81,4 @@ jobs:
           files: ./module3_task3/awesome-website.zip
           body_path: ./module3_task3/DEPLOY.md
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
