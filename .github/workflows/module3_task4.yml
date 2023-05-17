@@ -3,9 +3,9 @@ name: module3_task4
 
 'on':
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   schedule:
     - cron: "0 0 * * *"
 

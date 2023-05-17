@@ -1,10 +1,11 @@
+---
 name: release_drafter
 
-on:
+'on':
   push:
   pull_request:
     branches:
-      - [ main ]
+      - [main]
 jobs:
   update_release_draft:
     permissions:
