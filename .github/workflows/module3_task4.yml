@@ -3,13 +3,7 @@ name: module3_task4
 
 'on':
   push:
-    branches:
-      - main
-    tags:
-      - '*'
   pull_request:
-    branches:
-      - main
   schedule:
     - cron: "0 0 * * *"
 

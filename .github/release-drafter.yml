@@ -1,27 +1,17 @@
 ---
-name-template: '$NEXT_PATCH_VERSION'
-tag-template: '$NEXT_PATCH_VERSION'
+name-template: "v$NEXT_PATCH"
+tag-template: "v$NEXT_PATCH"
 categories:
-  - title: 'Bug Fixes'
+  - title: "Bug Fixes"
     labels:
-      - 'fix'
-  - title: 'Features'
+      - "bug"
+  - title: "Features"
     labels:
-      - 'feature'
-
-change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
-version-resolver:
-  major:
+      - "feature"
+  - title: "Documentation"
     labels:
-      - 'major'
-  minor:
-    labels:
-      - 'minor'
-  patch:
-    labels:
-      - 'patch'
-  default: patch
+      - "documentation"
 template: |
-  ## Changes
+  ## Changelog
 
   $CHANGES
