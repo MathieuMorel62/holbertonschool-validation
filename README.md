@@ -221,7 +221,7 @@ help: Show this help usage
 1
 ```
 
----------------------
+--------------------------------
 
 ### [3. From Development To Production](https://github.com/MathieuMorel62/holbertonschool-validation/tree/main/module1_task3)
 Now that you automated the website generation and documented the process, it’s time to deploy this new site to the production environment.
