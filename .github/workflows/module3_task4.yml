@@ -3,6 +3,8 @@ name: module3_task4
 
 'on':
   push:
+    tags:
+      - '*'
   pull_request:
   schedule:
     - cron: "0 0 * * *"
