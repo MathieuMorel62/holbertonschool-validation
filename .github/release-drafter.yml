@@ -11,7 +11,7 @@ categories:
   - title: "Documentation"
     labels:
       - "documentation"
-
+change-title-escapes: '\<*_&@#'
 template: |
   ## Changelog
 
