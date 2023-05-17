@@ -1,18 +1,20 @@
 ---
-name-template: "v$NEXT_PATCH_VERSION"
-tag-template: "v$NEXT_PATCH_VERSION"
+name-template: 'v$NEXT_PATCH_VERSION'
+tag-template: 'v$NEXT_PATCH_VERSION'
 categories:
-  - title: "Bug Fixes"
-    labels:
-      - "bug"
-  - title: "Features"
-    labels:
-      - "feature"
-  - title: "Documentation"
-    labels:
-      - "documentation"
-change-title-escapes: '\<*_&@#'
+  - title: '🚀 Features'
+    label: 'feature'
+  - title: '🐛 Bug Fixes'
+    label: 'fix'
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+version-resolver:
+  major:
+    labels: ['major']
+  minor:
+    labels: ['minor']
+  patch:
+    labels: ['patch', 'fix', 'bugfix', 'hotfix']
+  default: patch
 template: |
-  ## Changelog
-
+  ## Changes
   $CHANGES
