@@ -5,7 +5,7 @@ name: release_drafter
   push:
   pull_request:
     branches:
-      - [main]
+      - main
 jobs:
   update_release_draft:
     permissions:
