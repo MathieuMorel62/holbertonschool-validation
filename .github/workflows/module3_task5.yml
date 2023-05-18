@@ -78,6 +78,7 @@ jobs:
           production-branch: main
           github-token: ${{ secrets.MY_GITHUB_TOKEN }}
           deploy-message: 'Deploy on GitHub Actions'
+          publish-message: '🎉 Published on'
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
