@@ -38,6 +38,21 @@ jobs:
           cd ./module3_task5
           make lint
 
+      - name: Run unit tests
+        run: |
+          cd ./module3_task5
+          make unit-tests
+
+      - name: Run integration-tests
+        run: |
+          cd ./module3_task5
+          make integration-tests
+
+      - name: Run validate
+        run: |
+          cd ./module3_task5
+          make validate
+
       - name: Setup environment
         run: |
           cd ./module3_task5
