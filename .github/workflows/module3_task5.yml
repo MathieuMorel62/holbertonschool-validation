@@ -105,8 +105,6 @@ jobs:
         run: |
           cd module3_task5
           make package
-          netlify deploy --dir=./dist/
-          netlify deploy --prod --dir=./dist/
 
       - name: Create Release
         id: create_release
