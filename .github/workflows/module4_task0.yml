@@ -1,5 +1,5 @@
 ---
-name: module3_task5
+name: module4_task0
 
 'on':
   push:
@@ -35,32 +35,32 @@ jobs:
 
       - name: Lint
         run: |
-          cd ./module3_task5
+          cd ./module4_task0
           make lint
 
       - name: Run unit tests
         run: |
-          cd ./module3_task5
+          cd ./module4_task0
           make unit-tests
 
       - name: Run integration-tests
         run: |
-          cd ./module3_task5
+          cd ./module4_task0
           make integration-tests
 
       - name: Run validate
         run: |
-          cd ./module3_task5
+          cd ./module4_task0
           make validate
 
       - name: Setup environment
         run: |
-          cd ./module3_task5
+          cd ./module4_task0
           ./setup.sh
 
       - name: Build and Package
         run: |
-          cd ./module3_task5
+          cd ./module4_task0
           make build
           make package
 
@@ -68,12 +68,12 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: awesome-website
-          path: ./module3_task5/awesome-website.zip
+          path: ./module4_task0/awesome-website.zip
 
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v2.0
         with:
-          publish-dir: './module3_task5/dist'
+          publish-dir: './module4_task0/dist'
           enable-pull-request-comment: true
           production-branch: main
           github-token: ${{ secrets.MY_GITHUB_TOKEN }}
@@ -103,14 +103,14 @@ jobs:
 
       - name: Create Package
         run: |
-          cd module3_task5
+          cd module4_task0
           make package
 
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
-          files: ./module3_task5/awesome-website.zip
-          body_path: ./module3_task5/DEPLOY.md
+          files: ./module4_task0/awesome-website.zip
+          body_path: ./module4_task0/DEPLOY.md
         env:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
