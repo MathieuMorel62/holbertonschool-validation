@@ -4,7 +4,8 @@ lint: ## Run static analysis on the Go source code using golangci-lint
 	markdownlint DEPLOY.md || true
 
 go-build: ## Compile the Go source code of the application
-	@docker run -v "$(pwd)":/usr/src/myapp -w /usr/src/myapp golang:1.15.8-buster go build -o awesome-api
+	@docker run --rm -v $(PWD):/usr/src/myapp -w /usr/src/myapp golang:1.15.8-buster go build -o awesome-api
+
 hugo-build: check ## Builds the website with Hugo and generates the files
 	hugo -d dist/
 
@@ -27,11 +28,10 @@ help: ## Displays the list of targets and their use
 	@grep -E -i ^[a-z] Makefile | sed 's/ markdown-check markdown-link-check//' | sed 's/ check//' | sed 's/ lint go-build hugo-build//' | sed 's/ unit-tests integration-tests//' | tr -d '##' | sort
 
 unit-tests: ## Run Golang unit tests with code coverage
-	@docker run -v "$(pwd)":/usr/src/myapp -w /usr/src/myapp golang:1.15.8-buster go test -v -short -coverprofile=coverage-units.out
-
+	@docker run --rm -v $(PWD):/usr/src/myapp -w /usr/src/myapp golang:1.15.8-buster go test -v -short -coverprofile=coverage-units.out
 
 integration-tests: ## Run Golang integration tests with code coverage
-	@docker run -v "$(pwd)":/usr/src/myapp -w /usr/src/myapp golang:1.15.8-buster go test -v -coverprofile=coverage-integrations.out
+	@docker run --rm -v $(PWD):/usr/src/myapp -w /usr/src/myapp golang:1.15.8
 
 check: markdown-check markdown-link-check ## Check markdown files for dead links and linting issues
 
