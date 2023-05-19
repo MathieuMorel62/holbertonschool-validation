@@ -49,5 +49,4 @@ post: ## Creates a new publication file in the content/posts/ with a specified n
 	sed -i 's/title: .*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
 
 package: ## Create a ZIP archive containing the binary and the dist/ directory
-	make build
 	zip -r awesome-website.zip awesome-api dist/
