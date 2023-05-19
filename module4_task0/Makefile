@@ -1,7 +1,7 @@
 .PHONY: help build go-build hugo-build run stop lint test unit-tests integration-tests validate clean post
 
 lint: ## Run static analysis on the Go source code using golangci-lint
-	@docker run --rm -v "$(PWD)":/usr/src/myapp -w /usr/src/myapp golang:1.15.8-buster markdownlint DEPLOY.md || true
+	@markdownlint DEPLOY.md
 
 go-build: ## Compile the Go source code of the application
 	@docker run --rm -v "$(PWD)":/usr/src/myapp -w /usr/src/myapp golang:1.15.8-buster go build -o awesome-api
@@ -36,7 +36,7 @@ integration-tests: ## Run Golang integration tests with code coverage
 check: markdown-check markdown-link-check ## Check markdown files for dead links and linting issues
 
 markdown-check: ## Check markdown files for linting issues using markdownlint
-	markdownlint content/posts
+	@markdownlint content/posts
 
 markdown-link-check: ## Check markdown files for dead links using markdown-link-check
 	find content/posts -name '*.md' -exec markdown-link-check {} \;
