@@ -39,7 +39,7 @@ jobs:
           make lint
 
       - name: Check markdownlint-cli version
-        run: markdownlint -v
+        run: markdownlint --version
 
       - name: Run unit tests
         run: |
