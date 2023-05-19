@@ -37,6 +37,7 @@ jobs:
         run: |
           cd ./module4_task0
           make lint
+          make markdown-check
 
       - name: Check markdownlint-cli version
         run: markdownlint --version
