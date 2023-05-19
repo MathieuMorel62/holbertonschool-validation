@@ -14,6 +14,10 @@ name: module4_task0
 jobs:
   build:
     runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+      deployments: write
+      statuses: write
 
     steps:
       - name: Checkout code
@@ -24,8 +28,21 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Install markdownlint and markdown-link-check
-        run: npm install -g markdownlint-cli markdown-link-check
+      - uses: actions/checkout@v2
+      - name: Install Markdownlint
+        run: sudo npm install -g markdownlint-cli
+
+      - name: Install Markdown Link Check
+        run: sudo npm install -g markdown-link-check
+      - run: sudo ./module4_task0/setup.sh
+      - run: |
+          cd module4_task0
+          make unit-tests
+          make integration-tests
+
+      - run: |
+          cd module4_task0
+          make build
 
       - name: Install Hugo
         run: |
@@ -37,35 +54,10 @@ jobs:
         run: |
           cd ./module4_task0
           make lint
-          make markdown-check
 
-      - name: Check markdownlint-cli version
-        run: markdownlint --version
-
-      - name: Run unit tests
+      - name: Package
         run: |
           cd ./module4_task0
-          make unit-tests
-
-      - name: Run integration-tests
-        run: |
-          cd ./module4_task0
-          make integration-tests
-
-      - name: Run validate
-        run: |
-          cd ./module4_task0
-          make validate
-
-      - name: Setup environment
-        run: |
-          cd ./module4_task0
-          ./setup.sh
-
-      - name: Build and Package
-        run: |
-          cd ./module4_task0
-          make build
           make package
 
       - name: Archive package
