@@ -38,6 +38,9 @@ jobs:
           cd ./module4_task0
           make lint
 
+      - name: Check markdownlint-cli version
+        run: markdownlint -v
+
       - name: Run unit tests
         run: |
           cd ./module4_task0

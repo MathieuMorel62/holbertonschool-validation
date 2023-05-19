@@ -9,12 +9,6 @@ tar -xzf hugo_extended_0.84.0_Linux-64bit.tar.gz -C /usr/local/bin/
 rm hugo_extended_0.84.0_Linux-64bit.tar.gz
 export PATH=/usr/local/bin:$PATH
 
-# Installer markdownlint-cli
-if ! command -v markdownlint &> /dev/null; then
-    echo "markdownlint n'a pas été trouvé, installation en cours..."
-    npm install -g markdownlint-cli
-fi
-
 # Run make build
 make build
 
