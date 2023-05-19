@@ -1,10 +1,10 @@
 .PHONY: help build go-build hugo-build run stop lint test unit-tests integration-tests validate clean post
 
 lint: ## Run static analysis on the Go source code using golangci-lint
-	@docker run --rm -v $(PWD):/usr/src/myapp -w /usr/src/myapp golang:1.15.8-buster markdownlint DEPLOY.md || true
+	@docker run --rm -v "$(PWD)":/usr/src/myapp -w /usr/src/myapp golang:1.15.8-buster markdownlint DEPLOY.md || true
 
 go-build: ## Compile the Go source code of the application
-	@docker run --rm -v $(PWD):/usr/src/myapp -w /usr/src/myapp golang:1.15.8-buster go build -o awesome-api
+	@docker run --rm -v "$(PWD)":/usr/src/myapp -w /usr/src/myapp golang:1.15.8-buster go build -o awesome-api
 
 hugo-build: check ## Builds the website with Hugo and generates the files
 	hugo -d dist/
@@ -12,7 +12,7 @@ hugo-build: check ## Builds the website with Hugo and generates the files
 build: go-build hugo-build ## Compile both the Go application and Hugo website
 
 run: ## Run the Go application in the background and write logs to awesome-api.log
-	@./awesome-api >./awesome-api.log 2>&1 &
+	@docker run --rm -v "$(PWD)":/usr/src/myapp -w /usr/src/myapp golang:1.15.8-buster ./awesome-api >./awesome-api.log 2>&1 &
 
 stop: ## Stop the running Go application
 	@pkill awesome-api
@@ -28,10 +28,10 @@ help: ## Displays the list of targets and their use
 	@grep -E -i ^[a-z] Makefile | sed 's/ markdown-check markdown-link-check//' | sed 's/ check//' | sed 's/ lint go-build hugo-build//' | sed 's/ unit-tests integration-tests//' | tr -d '##' | sort
 
 unit-tests: ## Run Golang unit tests with code coverage
-	@docker run --rm -v $(PWD):/usr/src/myapp -w /usr/src/myapp golang:1.15.8-buster go test -v -short -coverprofile=coverage-units.out
+	@docker run --rm -v "$(PWD)":/usr/src/myapp -w /usr/src/myapp golang:1.15.8-buster go test -v -short -coverprofile=coverage-units.out
 
 integration-tests: ## Run Golang integration tests with code coverage
-	@docker run --rm -v $(PWD):/usr/src/myapp -w /usr/src/myapp golang:1.15.8
+	@docker run --rm -v "$(PWD)":/usr/src/myapp -w /usr/src/myapp golang:1.15.8-buster go test -v -short -coverprofile=coverage-integrations.out
 
 check: markdown-check markdown-link-check ## Check markdown files for dead links and linting issues
 
