@@ -12,7 +12,7 @@ hugo-build: check ## Builds the website with Hugo and generates the files
 build: go-build hugo-build ## Compile both the Go application and Hugo website
 
 run: ## Run the Go application in the background and write logs to awesome-api.log
-	@docker run --rm -v "$(PWD)":/usr/src/myapp -w /usr/src/myapp golang:1.15.8-buster ./awesome-api >./awesome-api.log 2>&1 &
+	@./awesome-api >./awesome-api.log 2>&1 &
 
 stop: ## Stop the running Go application
 	@pkill awesome-api
