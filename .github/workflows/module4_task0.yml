@@ -41,13 +41,13 @@ jobs:
       - name: Run unit tests
         run: |
           cd ./module4_task0
-          docker run --rm -v "$(PWD)":/usr/src/myapp -w /usr/src/myapp\
+          docker run --rm -v "$(PWD):/usr/src/myapp" -w /usr/src/myapp\
           golang:1.16.5 go test -v -short -coverprofile=coverage-units.out
 
       - name: Run integration-tests
         run: |
           cd ./module4_task0
-          docker run --rm -v "$(PWD)":/usr/src/myapp -w /usr/src/myapp\
+          docker run --rm -v "$(PWD):/usr/src/myapp" -w /usr/src/myapp\
           golang:1.16.5 go test -v -short\
           -coverprofile=coverage-integrations.out
 
