@@ -28,21 +28,8 @@ jobs:
         with:
           node-version: '16'
 
-      - uses: actions/checkout@v2
-      - name: Install Markdownlint
-        run: sudo npm install -g markdownlint-cli
-
-      - name: Install Markdown Link Check
-        run: sudo npm install -g markdown-link-check
-      - run: sudo ./module4_task0/setup.sh
-      - run: |
-          cd module4_task0
-          make unit-tests
-          make integration-tests
-
-      - run: |
-          cd module4_task0
-          make build
+      - name: Install markdownlint and markdown-link-check
+        run: sudo npm install -g markdownlint-cli markdown-link-check
 
       - name: Install Hugo
         run: |
@@ -50,14 +37,30 @@ jobs:
           hugo_extended_0.87.0_Linux-64bit.deb
           sudo dpkg -i hugo_extended_0.87.0_Linux-64bit.deb
 
-      - name: Lint
+      - name: Run unit tests
         run: |
           cd ./module4_task0
-          make lint
+          make unit-tests
 
-      - name: Package
+      - name: Run integration-tests
         run: |
           cd ./module4_task0
+          make integration-tests
+
+      - name: Run validate
+        run: |
+          cd ./module4_task0
+          make validate
+
+      - name: Setup environment
+        run: |
+          cd ./module4_task0
+          ./setup.sh
+
+      - name: Build and Package
+        run: |
+          cd ./module4_task0
+          make build
           make package
 
       - name: Archive package
