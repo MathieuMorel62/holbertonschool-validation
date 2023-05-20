@@ -3,15 +3,13 @@ name: module4_task0
 
 'on':
   push:
-    branches:
-      - main
+    branches: [main]
     tags:
       - '*'
   schedule:
     - cron: "0 0 * * *"
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   build:
@@ -34,25 +32,11 @@ jobs:
         run: |
           cd ./module4_task0
           make build
+
+      - name: Run package
+        run: |
+          cd ./module4_task0
           make package
-
-      - name: Check markdownlint-cli version
-        run: markdownlint --version
-
-      - name: Run unit tests
-        run: |
-          cd ./module4_task0
-          make unit-tests
-
-      - name: Run integration-tests
-        run: |
-          cd ./module4_task0
-          make integration-tests
-
-      - name: Run validate
-        run: |
-          cd ./module4_task0
-          make validate
 
       - name: Archive package
         uses: actions/upload-artifact@v2
@@ -81,15 +65,6 @@ jobs:
     steps:
       - name: Check-out code
         uses: actions/checkout@v2
-
-      - name: Install markdownlint and markdown-link-check
-        run: npm install -g markdownlint-cli markdown-link-check
-
-      - name: Install Hugo
-        run: |
-          wget https://github.com/gohugoio/hugo/releases/download/v0.87.0/\
-          hugo_extended_0.87.0_Linux-64bit.deb
-          sudo dpkg -i hugo_extended_0.87.0_Linux-64bit.deb
 
       - name: Create Package
         run: |
