@@ -1,16 +1,8 @@
 #!/bin/bash
 
-# Install required packages
-sudo apt-get update && sudo apt-get install -y git curl make wget build-essential
+# Install Hugo
+rm -rf /usr/local/go
+curl -Lo install_hugo.deb https://github.com/gohugoio/hugo/releases/download/v0.109.0/hugo_extended_0.109.0_linux-amd64.deb
+sudo apt-get install ./install_hugo.deb
 
-# Download Hugo
-wget https://github.com/gohugoio/hugo/releases/download/v0.109.0/hugo_extended_0.109.0_Linux-64bit.tar.gz
-
-# Extract the file
-tar -xzf hugo_extended_0.109.0_Linux-64bit.tar.gz
-
-# Move Hugo to the current directory
-mv hugo ./ 
-
-# Add Hugo to the PATH
-export PATH=$PATH:$(pwd)
+echo "The installation is successfully completed" >&2
