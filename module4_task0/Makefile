@@ -36,7 +36,7 @@ integration-tests: ## Run Golang integration tests with code coverage
 check: markdown-check markdown-link-check ## Check markdown files for dead links and linting issues
 
 markdown-check: ## Check markdown files for linting issues using markdownlint
-	@docker run --rm -v "$(PWD)":/workdir markdownlint/markdownlint content/posts
+	@docker run --rm -v "$(PWD)":/workdir markdownlint/markdownlint ../content/posts
 
 markdown-link-check: ## Check markdown files for dead links using markdown-link-check
 	find content/posts -name '*.md' -exec markdown-link-check {} \;
