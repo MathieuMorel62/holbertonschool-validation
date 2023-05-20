@@ -23,19 +23,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-
       - name: Install markdownlint and markdown-link-check
         run: sudo npm install -g markdownlint-cli markdown-link-check
-
-      - name: Install Hugo
-        run: |
-          wget https://github.com/gohugoio/hugo/releases/download/v0.87.0/\
-          hugo_extended_0.87.0_Linux-64bit.deb
-          sudo dpkg -i hugo_extended_0.87.0_Linux-64bit.deb
 
       - name: Lint
         run: |
