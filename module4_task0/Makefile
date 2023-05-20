@@ -1,32 +1,52 @@
-# Define variables
-Publish=hugo
-SHELLCHECK=shellcheck
-build: ## Builds a new website
-	$(Publish)
-	touch awesome-api
-clean: ## Remove all files from folder dist
-	rm -r dist/*
-post: ## Create new post and using the sed command to modify the contents of a file.
-	$(Publish) new posts/$(POST_NAME).md
-	sed -i ‘s/title: .*/title: “$(POST_TITLE)“/’ content/posts/$(POST_NAME).md
-lint: ## shellcheck setup
-	markdownlint README.md DEPLOY.md
-	$(SHELLCHECK) setup.sh >/dev/null 2>&1 || echo “Lint Failed”
-markdownlint: ## updated to lint the files README.md and DEPLOY.md
-	markdownlint README.md DEPLOY.md
-integration-tests: ## server and check the localhost
-	hugo
-	touch coverage-integrations.out
-	ls dist/
-	
-unit-tests: ## Runs different makefile recipes
-	make build
-	make clean
-	touch coverage-units.out
-validate: ## Tests dir
-	pwd
-package: ## creates archive
-	make build
-	zip awesome-website.zip dist/	
-help: ## Display the list of targets and their usage.
-	cat Makefile | grep ‘##’ | tr -d ‘##’ | head -n -1
+.PHONY: help build go-build hugo-build run stop lint test unit-tests integration-tests validate clean post
+
+lint: ## Run static analysis on the Go source code using golangci-lint
+	@markdownlint DEPLOY.md
+
+go-build: ## Compile the Go source code of the application
+	@docker run --rm -v "$(PWD)":/usr/src/myapp -w /usr/src/myapp golang:1.15.8-buster go build -o awesome-api
+
+hugo-build: check ## Builds the website with Hugo and generates the files
+	hugo -d dist/
+
+build: go-build hugo-build ## Compile both the Go application and Hugo website
+
+run: ## Run the Go application in the background and write logs to awesome-api.log
+	@./awesome-api >./awesome-api.log 2>&1 &
+
+stop: ## Stop the running Go application
+	@pkill awesome-api
+
+clean: ## Stop the application, delete the binary, log, coverage files, and Hugo website build
+	$(MAKE) stop || true
+	rm -rf awesome-api awesome-api.log coverage-units.out coverage-integrations.out
+	rm -rf dist/
+
+test: unit-tests integration-tests ## Run both unit and integration tests for the Go application
+
+help: ## Displays the list of targets and their use
+	@grep -E -i ^[a-z] Makefile | sed 's/ markdown-check markdown-link-check//' | sed 's/ check//' | sed 's/ lint go-build hugo-build//' | sed 's/ unit-tests integration-tests//' | tr -d '##' | sort
+
+unit-tests: ## Run Golang unit tests with code coverage
+	@docker run --rm -v "$(PWD)":/usr/src/myapp -w /usr/src/myapp golang:1.15.8-buster go test -v -short -coverprofile=coverage-units.out
+
+integration-tests: ## Run Golang integration tests with code coverage
+	@docker run --rm -v "$(PWD)":/usr/src/myapp -w /usr/src/myapp golang:1.15.8-buster go test -v -short -coverprofile=coverage-integrations.out
+
+check: markdown-check markdown-link-check ## Check markdown files for dead links and linting issues
+
+markdown-check: ## Check markdown files for linting issues using markdownlint
+	@markdownlint content/posts
+
+markdown-link-check: ## Check markdown files for dead links using markdown-link-check
+	find content/posts -name '*.md' -exec markdown-link-check {} \;
+
+validate: ## Validate the generated HTML using Holberton's W3C Validator
+	-python3 w3c_validator.py ./dist/index.html || true
+
+post: ## Creates a new publication file in the content/posts/ with a specified name and title
+	hugo new posts/$(POST_NAME).md
+	sed -i 's/title: .*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
+
+package: ## Create a ZIP archive containing the binary and the dist/ directory
+	zip -r awesome-website.zip awesome-api dist/
