@@ -28,6 +28,12 @@ jobs:
       - name: Install markdownlint and markdown-link-check
         run: sudo npm install -g markdownlint-cli markdown-link-check
 
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.109.0'
+          extended: true
+
       - name: Lint
         run: |
           cd ./module4_task0
