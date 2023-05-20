@@ -7,7 +7,7 @@ go-lint: ##lint the go program using golangci-lint
 	@docker run
 
 go-build: ## Compile the Go source code of the application
-	@docker run --rm -v "$(PWD)":/usr/src/myapp -w /usr/src/myapp node:14-buster bash -c 'apt-get update && apt-get install -y npm && npm install -g npm@6 && npm install -g markdownlint-cli && go build -o awesome-api'
+	@docker run --rm -v "$(PWD)":/usr/src/myapp -w /usr/src/myapp golang:1.15.8-node14-buster bash -c 'apt-get update && apt-get install -y npm && npm install -g npm@6 && npm install -g markdownlint-cli && go build -o awesome-api'
 
 hugo-build: check ## Builds the website with Hugo and generates the files
 	hugo -d dist/
