@@ -3,13 +3,15 @@ name: module4_task0
 
 'on':
   push:
-    branches: [main]
+    branches:
+      - main
     tags:
       - '*'
   schedule:
     - cron: "0 0 * * *"
   pull_request:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   build:
@@ -20,22 +22,42 @@ jobs:
       statuses: write
 
     steps:
-      - uses: actions/checkout@v3
-      - name: installation Hugo with script
-        run: cd module4_task0 && ./setup.sh
-      - name: Validate Makefile execution make build command
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup environment
         run: |
-          make help
+          cd ./module4_task0
+          ./setup.sh
+
+      - name: Build and Package
+        run: |
+          cd ./module4_task0
           make build
-          make lint
-          make run
-          make clean
-        working-directory: module4_task0
-      - name: packaging
-        run: cd module4_task0 && make package
-      - name: tests
+          make package
+
+      - name: Lint
         run: |
-          cd module4_task0/ && make test
+          cd ./module4_task0
+          make lint
+
+      - name: Check markdownlint-cli version
+        run: markdownlint --version
+
+      - name: Run unit tests
+        run: |
+          cd ./module4_task0
+          make unit-tests
+
+      - name: Run integration-tests
+        run: |
+          cd ./module4_task0
+          make integration-tests
+
+      - name: Run validate
+        run: |
+          cd ./module4_task0
+          make validate
 
       - name: Archive package
         uses: actions/upload-artifact@v2
