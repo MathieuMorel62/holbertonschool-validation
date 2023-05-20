@@ -8,3 +8,9 @@ wget https://github.com/gohugoio/hugo/releases/download/v0.109.0/hugo_extended_0
 
 # Extract the file
 tar -xzf hugo_extended_0.109.0_Linux-64bit.tar.gz
+
+# Move Hugo to the current directory
+mv hugo ./ 
+
+# Add Hugo to the PATH
+export PATH=$PATH:$(pwd)
