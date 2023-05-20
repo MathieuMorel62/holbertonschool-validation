@@ -40,7 +40,7 @@ jobs:
       - name: Lint
         run: |
           cd ./module4_task0
-          make go-lint
+          make lint
 
       - name: Check markdownlint-cli version
         run: markdownlint --version
