@@ -20,23 +20,22 @@ jobs:
       statuses: write
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup environment
+      - uses: actions/checkout@v3
+      - name: installation Hugo with script
+        run: cd module4_task0 && ./setup.sh
+      - name: Validate Makefile execution make build command
         run: |
-          cd ./module4_task0
-          ./setup.sh
-
-      - name: Build
-        run: |
-          cd ./module4_task0
+          make help
           make build
-
-      - name: Run package
+          make lint
+          make run
+          make clean
+        working-directory: module4_task0
+      - name: packaging
+        run: cd module4_task0 && make package
+      - name: tests
         run: |
-          cd ./module4_task0
-          make package
+          cd module4_task0/ && make test
 
       - name: Archive package
         uses: actions/upload-artifact@v2
