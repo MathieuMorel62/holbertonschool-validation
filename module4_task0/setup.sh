@@ -10,7 +10,6 @@ sudo apt install ./hugo.deb
 #remove file after installation
 sudo rm hugo.deb
 
-
 # Uninstall go
 sudo apt-get remove golang-go
 sudo rm -rf /usr/local/go

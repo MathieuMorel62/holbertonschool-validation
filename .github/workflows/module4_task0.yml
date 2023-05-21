@@ -23,6 +23,12 @@ jobs:
         run: |
           cd module4_task0 && ./setup.sh
 
+      - name: Print PATH
+        run: echo $PATH
+
+      - name: Check Hugo
+        run: which hugo || true
+
       - name: Install npm dependencies
         run: sudo npm install -g markdownlint-cli markdown-link-check
 
