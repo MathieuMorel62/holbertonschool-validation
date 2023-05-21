@@ -62,6 +62,8 @@ The project includes a `Makefile` to automate the life-cycle of the application.
 - `clean`: Stop the application and delete the binary, log, coverage files, and Hugo website build
 - `post`: Create a new publication file in the content/posts/ directory with a specified name and title
 - `package`: Create a ZIP archive containing the binary and the dist/ directory
+- `lint-docker`: Lint the Dockerfile using Hadolint.
+- `docker-tests`: Run container structure tests on the Docker image.
 
 ### Example
 
@@ -81,7 +83,8 @@ integration-tests: Run the integration tests of the application with code covera
 check: Check markdown files for dead links and linting issues
 post: Create a new publication file in the content/posts/ directory with a specified name and title
 package: Create a ZIP archive containing the binary and the dist/ directory
-
+lint-docker: Lint the Dockerfile using Hadolint.
+docker-tests: Run container structure tests on the Docker image.
 ```
 
 ----------------------
