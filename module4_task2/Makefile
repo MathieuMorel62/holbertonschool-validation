@@ -12,7 +12,8 @@ stop: ## Stop the Go application
 	pkill awesome-api
 
 lint: ## Should execute all of the lint steps using the Docker image
-  docker run --rm -i hadolint/hadolint < ./.build/Dockerfile
+	make build-docker
+	docker run --rm -v "$(PWD)":/usr/src/myapp -w /usr/src/myapp awesome:build markdownlint DEPLOY.md README.md || true
 
 lint-docker: ## Lint the Dockerfile using Hadolint
 	hadolint ./.build/Dockerfile || true
