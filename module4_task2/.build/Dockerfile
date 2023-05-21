@@ -7,8 +7,7 @@ RUN apk update && \
     go get github.com/golangci/golangci-lint/cmd/golangci-lint@v1.33.0
 
 # Install Node.js and npm
-# hadolint ignore=DL3019
-# hadolint ignore=DL3018
+# hadolint ignore=DL3018, 3019
 RUN apk add --update nodejs npm
 
 # Install markdownlint

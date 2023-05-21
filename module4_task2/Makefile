@@ -12,15 +12,13 @@ stop: ## Stop the Go application
 	pkill awesome-api
 
 lint: ## Should execute all of the lint steps using the Docker image
-	-make build-docker
-	docker run --rm -v "$(PWD)":/usr/src/myapp -w /usr/src/myapp awesome:build markdownlint DEPLOY.md README.md || true
+  docker run --rm -i hadolint/hadolint < ./.build/Dockerfile
 
 lint-docker: ## Lint the Dockerfile using Hadolint
 	hadolint ./.build/Dockerfile || true
 
 docker-tests: ## Run container structure tests on the Docker image
-	-make build-docker
-	container-structure-test test --image awesome:build --config .build/cst.yml || true
+	container-structure-test test --image awesome:build --config ./.build/cst.yml
 
 test: ## should execute all of the testing targets (unit-tests, integration-tests and validate
 	@make unit-tests
