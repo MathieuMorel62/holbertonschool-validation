@@ -1,7 +1,6 @@
 FROM golang:1.15.8-alpine
 
 # Install GCC and other required tools
-# hadolint ignore=DL3018
 RUN apk update && \
     apk add --no-cache hugo gcc musl-dev && \
     export GO111MODULE=on && \
@@ -9,6 +8,7 @@ RUN apk update && \
 
 # Install Node.js and npm
 # hadolint ignore=DL3019
+# hadolint ignore=DL3018
 RUN apk add --update nodejs npm
 
 # Install markdownlint
