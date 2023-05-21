@@ -9,7 +9,8 @@ RUN apt-get update && \
     apt-get install -y npm nodejs && \
     npm install -g npm@9.6.7 && \
     npm install -g markdownlint-cli@0.29.0 && \
-    npm audit fix --force && \
+    npm install --package-lock-only && \
+    npm audit fix --package-lock-only && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
