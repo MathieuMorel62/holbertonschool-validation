@@ -4,7 +4,7 @@ lint: ## Run static analysis on the Go source code using golangci-lint
 	markdownlint DEPLOY.md || true
 
 go-build: ## Compile the Go source code of the application
-	@docker run --rm -v "$(PWD)":/usr/src/myapp -w /usr/src/myapp golang:1.15.8-buster go build -o awesome-api
+	@docker run --rm -v "$(PWD)":/usr/src/myapp -w /usr/src/myapp golang:1.15.8-buster go build
 
 hugo-build: ## Builds the website with Hugo and generates the files
 	hugo -d dist/
