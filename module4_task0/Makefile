@@ -1,11 +1,7 @@
 .PHONY: help build go-build hugo-build run stop lint test unit-tests integration-tests validate clean post
 
 lint: ## Run static analysis on the Go source code using golangci-lint
-	apt install curl -y
-	curl --silent --location https://deb.nodesource.com/setup_16.x | bash -
-	apt install nodejs -y
-	npm install -g markdownlint-cli 1>&2
-	markdownlint README.md DEPLOY.md
+	@markdownlint DEPLOY.md
 
 go-build: ## Compile the Go source code of the application
 	@docker run --rm -v "$(PWD)":/usr/src/myapp -w /usr/src/myapp golang:1.15.8-buster go build -o awesome-api
