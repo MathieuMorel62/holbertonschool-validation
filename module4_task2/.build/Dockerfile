@@ -6,11 +6,12 @@ RUN apk update && \
     export GO111MODULE=on && \
     go get github.com/golangci/golangci-lint/cmd/golangci-lint@v1.33.0
 
-# Install markdownlint
-RUN npm install -g markdownlint-cli
+# Install npm and markdownlint
+RUN apk add --no-cache npm && \
+    npm install -g markdownlint-cli
 
-# Set the PATH to include markdownlint
-ENV PATH="/root/.npm-global/bin:$PATH"
+# Set the PATH to include npm
+ENV PATH="/usr/local/bin:$PATH"
 
 # Set the working directory in the container
 WORKDIR /usr/src/myapp
