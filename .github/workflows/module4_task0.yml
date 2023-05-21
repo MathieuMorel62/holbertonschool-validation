@@ -63,6 +63,7 @@ jobs:
           cd ./module4_task0
           make build
           make package
+          make clean
 
       - name: Archive package
         uses: actions/upload-artifact@v2
