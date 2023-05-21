@@ -20,7 +20,12 @@ jobs:
         uses: actions/checkout@v3
 
       - name: installation Hugo with script
-        run: cd module4_task0 && ./setup.sh
+        run: |
+        cd module4_task0
+        ./setup.sh
+
+      - name: Install npm dependencies
+        run: sudo npm install -g markdownlint-cli markdown-link-check
 
       - name: Validate the Makefile
         run: |

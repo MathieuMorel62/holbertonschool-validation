@@ -8,10 +8,6 @@ sudo curl -LO https://github.com/gohugoio/hugo/releases/download/v0.84.0/hugo_ex
 tar -xzf hugo_extended_0.84.0_Linux-64bit.tar.gz -C /usr/local/bin/
 sudo rm hugo_extended_0.84.0_Linux-64bit.tar.gz
 
-# download/install linter
-
-sudo npm install -g markdownlint-cli
-sudo npm install -g markdown-link-check
 
 # Uninstall go
 sudo apt-get remove golang-go
