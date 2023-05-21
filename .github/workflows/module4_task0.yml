@@ -45,12 +45,6 @@ jobs:
           cd ./module4_task0
           make validate
 
-      - name: Install Hugo
-        run: |
-          wget https://github.com/gohugoio/hugo/releases/download/v0.87.0/\
-          hugo_extended_0.87.0_Linux-64bit.deb
-          sudo dpkg -i hugo_extended_0.87.0_Linux-64bit.deb
-
       - name: Setup environment
         run: |
           cd module4_task0
@@ -90,20 +84,6 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v3
-
-      - name: Install markdownlint and markdown-link-check
-        run: npm install -g markdownlint-cli markdown-link-check
-
-      - name: Install Hugo
-        run: |
-          wget https://github.com/gohugoio/hugo/releases/download/v0.87.0/\
-          hugo_extended_0.87.0_Linux-64bit.deb
-          sudo dpkg -i hugo_extended_0.87.0_Linux-64bit.deb
-
-      - name: Create Package
-        run: |
-          cd module4_task0
-          make package
 
       - name: Create Release
         id: create_release
