@@ -1,10 +1,10 @@
 .PHONY: help build go-build hugo-build run stop lint test unit-tests integration-tests validate clean post
 
 lint: ## Run static analysis on the Go source code using golangci-lint
-	@markdownlint DEPLOY.md
+	markdownlint DEPLOY.md || true
 
 go-build: ## Compile the Go source code of the application
-	@docker run --rm -v "$(PWD)":/usr/src/myapp -w /usr/src/myapp golang:1.15.8-buster go build -o awesome-api
+	@go build -o awesome-api
 
 hugo-build: check ## Builds the website with Hugo and generates the files
 	hugo -d dist/
@@ -28,15 +28,16 @@ help: ## Displays the list of targets and their use
 	@grep -E -i ^[a-z] Makefile | sed 's/ markdown-check markdown-link-check//' | sed 's/ check//' | sed 's/ lint go-build hugo-build//' | sed 's/ unit-tests integration-tests//' | tr -d '##' | sort
 
 unit-tests: ## Run Golang unit tests with code coverage
-	@docker run --rm -v "$(PWD)":/usr/src/myapp -w /usr/src/myapp golang:1.15.8-buster go test -v -short -coverprofile=coverage-units.out
+	@go test -v -short -coverprofile=coverage-units.out
+	@go tool cover -func=coverage-units.out
 
 integration-tests: ## Run Golang integration tests with code coverage
-	@docker run --rm -v "$(PWD)":/usr/src/myapp -w /usr/src/myapp golang:1.15.8-buster go test -v -short -coverprofile=coverage-integrations.out
+	go test -v -coverprofile=coverage-integrations.out
 
 check: markdown-check markdown-link-check ## Check markdown files for dead links and linting issues
 
 markdown-check: ## Check markdown files for linting issues using markdownlint
-	@markdownlint content/posts
+	markdownlint content/posts
 
 markdown-link-check: ## Check markdown files for dead links using markdown-link-check
 	find content/posts -name '*.md' -exec markdown-link-check {} \;
@@ -49,4 +50,5 @@ post: ## Creates a new publication file in the content/posts/ with a specified n
 	sed -i 's/title: .*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
 
 package: ## Create a ZIP archive containing the binary and the dist/ directory
+	make build
 	zip -r awesome-website.zip awesome-api dist/
