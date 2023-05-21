@@ -5,10 +5,11 @@ RUN useradd -m Mathieu
 
 # Install the required tools
 # Installer les outils requis
+# Installer les outils requis
 RUN apt-get update && \
     apt-get install -y hugo && \
     apt-get install -y npm && \
-    npm install -g markdownlint-cli\
+    npm install -g markdownlint-cli && \
     export GO111MODULE=on && \
     go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.33.0
 
