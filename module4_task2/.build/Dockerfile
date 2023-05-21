@@ -1,7 +1,7 @@
 FROM golang:1.15.8-alpine
 
 # Install GCC and other required tools
-# hadolint ignore=DL3018
+# hadolint ignore=DL3018,  DL3019,  DL3016
 RUN apk update && \
     apk add --no-cache hugo gcc musl-dev && \
     export GO111MODULE=on && \
