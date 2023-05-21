@@ -4,7 +4,7 @@ lint: ## Run markdown linting on the DEPLOY.md and README.md files
 	markdownlint -f DEPLOY.md README.md || true
 
 build: ## Build the Hugo website and create a placeholder file for the Go application
-	hugo
+	@hugo
 	touch awesome-api
 
 run: ## Execute the placeholder Go application and redirect output to awesome-api.log
