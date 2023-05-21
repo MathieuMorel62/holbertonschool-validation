@@ -1,5 +1,5 @@
 build: ## Generate both the static website with ./dist/ and the API application
-	docker run --volume ${GITHUB_WORKSPACE}/module4_task0/:/go golang:1.15.8-buster ls && go build
+	docker run --volume ${GITHUB_WORKSPACE}/module4_task1/:/go golang:1.15.8-buster ls && go build
 	hugo > /dev/null 2>&1
 
 build-docker: ## Build and use the Docker image
@@ -20,10 +20,10 @@ test: ## should execute all of the testing targets (unit-tests, integration-test
 	@make validate
 
 unit-tests: ## Should be implemented and should execute (successfully) the Golang unit tests
-	docker run --volume ${GITHUB_WORKSPACE}/module4_task0/:/go golang:1.15.8-buster ls && go test -v -short -coverprofile=coverage-units.out
+	docker run --volume ${GITHUB_WORKSPACE}/module4_task1/:/go golang:1.15.8-buster ls && go test -v -short -coverprofile=coverage-units.out
 
 integration-tests: ## Should be implemented and should execute (successfully) the Golang integration tests
-	docker run --volume ${GITHUB_WORKSPACE}/module4_task0/:/go golang:1.15.8-buster ls && go test -v -coverprofile=coverage-integrations.out
+	docker run --volume ${GITHUB_WORKSPACE}/module4_task1/:/go golang:1.15.8-buster ls && go test -v -coverprofile=coverage-integrations.out
 
 clean: ## should delete all the generated files (logs, test reports, distribution directory, etc.) and call the make stop target as preliminary
 	make stop || true
