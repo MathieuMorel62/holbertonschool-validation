@@ -3,76 +3,69 @@ name: module4_task0
 
 'on':
   push:
-    branches: [main]
-    tags:
-      - '*'
+    branches:
+      - main
+      - master
   schedule:
-    - cron: "0 0 * * *"
+    - cron: '0 0 * * *'
   pull_request:
-    branches: [main]
+    types: [main]
 
 jobs:
   build:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Checkout code
+      - name: clone repository
         uses: actions/checkout@v3
 
-      - name: Install markdownlint and markdown-link-check
-        run: sudo npm install -g markdownlint-cli markdown-link-check
-
-      - name: Clean up
-        run: |
-          cd ./module4_task0
-          make clean
-
-      - name: Lint
+      - name: run lint
         run: |
           cd ./module4_task0
           make lint
 
-      - name: Run unit tests
+      - name: run unit-tests
         run: |
           cd ./module4_task0
           make unit-tests
 
-      - name: Run integration-tests
+      - name: run integration-tests
         run: |
           cd ./module4_task0
           make integration-tests
 
-      - name: Run validate
+      - name: run validate tests
         run: |
           cd ./module4_task0
           make validate
 
-      - name: Setup environment
+      - name: run Setup environment
         run: |
-          cd ./module4_task0
+          cd module4_task0
           ./setup.sh
 
-      - name: Build and Package
+      - name: run Build
+        run: |
+          cd module4_task0
+          make build
+
+      - name: run package
         run: |
           cd ./module4_task0
-          make build
           make package
-
-      - name: Archive package
-        uses: actions/upload-artifact@v2
-        with:
-          name: awesome-website
-          path: ./module4_task0/awesome-website.zip
+          make clean
 
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v2.0
         with:
           publish-dir: './module4_task0/dist'
-          enable-pull-request-comment: true
           production-branch: main
           github-token: ${{ secrets.MY_GITHUB_TOKEN }}
-          deploy-message: '🚀 Deployed on'
-          publish-message: '🎉 Published on'
+          publish-message: "🎉 Published on"
+          deploy-message: "🚀 Deployed on"
+          enable-pull-request-comment: true
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
@@ -83,14 +76,19 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-22.04
     steps:
-      - name: Check-out code
-        uses: actions/checkout@v2
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Create Package
+        run: |
+          cd module4_task0
+          make package
 
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
           files: ./module4_task0/awesome-website.zip
-          body_path: ./module4_task0/DEPLOY.md
+          body_path: ./module4_taskO/DEPLOY.md
         env:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}

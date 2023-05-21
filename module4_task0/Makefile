@@ -1,50 +1,44 @@
-.PHONY: help build go-build hugo-build run stop lint test unit-tests integration-tests validate clean post
+build: ## Generate both the static website with ./dist/ and the API application
+	docker run --volume ${GITHUB_WORKSPACE}/module4_task0/:/go golang:1.15.8-buster ls && go build
+	hugo > /dev/null 2>&1
 
-lint: ## Run static analysis on the Go source code using golangci-lint
-	markdownlint DEPLOY.md || true
+run: ## Run the Go application in background, and write logs into a file named awesome-api.log
+	./awesome-api >./awesome-api.log 2>&1 &
 
-go-build: ## Compile the Go source code of the application
-	@docker run --rm -v "$(PWD)":/usr/src/myapp -w /usr/src/myapp golang:1.15.8-buster go build -o awesome-api
+stop: ## Stop the Go application
+	pkill awesome-api
 
-hugo-build: ## Builds the website with Hugo and generates the files
-	hugo -d dist/
+lint: ## Should execute all of the lint steps
+	markdownlint DEPLOY.md README.md || true
 
-build: go-build hugo-build ## Compile both the Go application and Hugo website
+test: ## should execute all of the testing targets (unit-tests, integration-tests and validate
+	@make unit-tests 
+	@make integration-tests
+	@make validate
 
-run: ## Run the Go application in the background and write logs to awesome-api.log
-	@./awesome-api >./awesome-api.log 2>&1 &
+unit-tests: ## Should be implemented and should execute (successfully) the Golang unit tests
+	docker run --volume ${GITHUB_WORKSPACE}/module4_task0/:/go golang:1.15.8-buster ls && go test -v -short -coverprofile=coverage-units.out
 
-stop: ## Stop the running Go application
-	@pkill awesome-api
+integration-tests: ## Should be implemented and should execute (successfully) the Golang integration tests
+	docker run --volume ${GITHUB_WORKSPACE}/module4_task0/:/go golang:1.15.8-buster ls && go test -v -coverprofile=coverage-integrations.out
 
-clean: ## Stop the application, delete the binary, log, coverage files, and Hugo website build
-	$(MAKE) stop || true
+clean: ## should delete all the generated files (logs, test reports, distribution directory, etc.) and call the make stop target as preliminary
+	make stop || true
+	pkill awesome-api || true
 	rm -rf awesome-api awesome-api.log coverage-units.out coverage-integrations.out
-	rm -rf dist/
+	rm -rf dist/*
 
-test: unit-tests integration-tests ## Run both unit and integration tests for the Go application
-
-help: ## Displays the list of targets and their use
-	@grep -E -i ^[a-z] Makefile | sed 's/ markdown-check markdown-link-check//' | sed 's/ check//' | sed 's/ lint go-build hugo-build//' | sed 's/ unit-tests integration-tests//' | tr -d '##' | sort
-
-unit-tests: ## Run Golang unit tests with code coverage
-	@docker run --rm -v "$(PWD)":/usr/src/myapp -w /usr/src/myapp golang:1.15.8-buster go test -v -short -coverprofile=coverage-units.out
-
-integration-tests: ## Run Golang integration tests with code coverage
-	@docker run --rm -v "$(PWD)":/usr/src/myapp -w /usr/src/myapp golang:1.15.8-buster go test -v -coverprofile=coverage-integrations.out
-
-markdown-check: ## Check markdown files for linting issues using markdownlint
-	markdownlint content/posts
-
-markdown-link-check: ## Check markdown files for dead links using markdown-link-check
-	find content/posts -name '*.md' -exec markdown-link-check {} \;
-
-validate: ## Validate the generated HTML using Holberton's W3C Validator
-	-python3 w3c_validator.py ./dist/index.html || true
-
-post: ## Creates a new publication file in the content/posts/ with a specified name and title
+post: ## Create a new blog post
 	hugo new posts/$(POST_NAME).md
 	sed -i 's/title: .*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
 
-package: ## Create a ZIP archive containing the binary and the dist/ directory
+validate: ## checks if  the generated HTML is compliant with the W3C (acceptance testing)
+	@./w3c_validator.py ./dist/index.html || true
+
+help: ## Prints out the list of targets and their usage.
+	@grep -E -i ^[a-z] Makefile | sed 's/ check//' | tr -d '##'
+
+package: ## produces a file awesome-website.zip
+	make build
 	zip -r awesome-website.zip awesome-api dist/
+	
