@@ -19,32 +19,44 @@ jobs:
       - name: clone repository
         uses: actions/checkout@v3
 
+      - name: Install markdownlint
+        run: sudo npm install -g markdownlint-cli
+
+      - name: Install markdownlint-check
+        run: sudo npm install -g markdown-link-check
+
       - name: run lint
         run: |
           cd ./module4_task0
           make lint
 
-      - name: run unit-tests
+      - name: unit-tests
         run: |
           cd ./module4_task0
           make unit-tests
 
-      - name: run integration-tests
+      - name: integration-tests
         run: |
           cd ./module4_task0
           make integration-tests
 
-      - name: run validate tests
+      - name: validate tests
         run: |
           cd ./module4_task0
           make validate
 
-      - name: run Setup environment
+      - name: Install Hugo
+        run: |
+          wget https://github.com/gohugoio/hugo/releases/download/v0.87.0/\
+          hugo_extended_0.87.0_Linux-64bit.deb
+          sudo dpkg -i hugo_extended_0.87.0_Linux-64bit.deb
+
+      - name: Setup environment
         run: |
           cd module4_task0
           ./setup.sh
 
-      - name: run Build
+      - name: Build
         run: |
           cd module4_task0
           make build
@@ -78,6 +90,15 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v3
+
+      - name: Install markdownlint and markdown-link-check
+        run: npm install -g markdownlint-cli markdown-link-check
+
+      - name: Install Hugo
+        run: |
+          wget https://github.com/gohugoio/hugo/releases/download/v0.87.0/\
+          hugo_extended_0.87.0_Linux-64bit.deb
+          sudo dpkg -i hugo_extended_0.87.0_Linux-64bit.deb
 
       - name: Create Package
         run: |
