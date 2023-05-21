@@ -19,7 +19,8 @@ lint-docker: ## Lint the Dockerfile using Hadolint
 	hadolint ./.build/Dockerfile || true
 
 docker-tests: ## Run container structure tests on the Docker image
-	container-structure-test test --image awesome:build --config ./.build/cst.yml
+	-make build-docker
+	container-structure-test test --image awesome:build --config .build/cst.yml
 
 test: ## should execute all of the testing targets (unit-tests, integration-tests and validate
 	@make unit-tests
