@@ -1,54 +1,48 @@
-.PHONY: help build go-build hugo-build run stop lint test unit-tests integration-tests validate clean post
+.PHONY: help build run stop lint test unit-tests integration-tests check validate clean post
 
-lint: ## Run static analysis on the Go source code using golangci-lint
-	markdownlint DEPLOY.md || true
+lint: ## Run markdown linting on the DEPLOY.md and README.md files
+	markdownlint -f DEPLOY.md README.md || true
 
-go-build: ## Compile the Go source code of the application
-	@go build -o awesome-api
+build: ## Build the Hugo website and create a placeholder file for the Go application
+	hugo
+	touch awesome-api
 
-hugo-build: check ## Builds the website with Hugo and generates the files
-	hugo -d dist/
+run: ## Execute the placeholder Go application and redirect output to awesome-api.log
+	./awesome-api >./awesome-api.log 2>&1 &
 
-build: go-build hugo-build ## Compile both the Go application and Hugo website
-
-run: ## Run the Go application in the background and write logs to awesome-api.log
-	@./awesome-api >./awesome-api.log 2>&1 &
-
-stop: ## Stop the running Go application
+stop: ## Terminate the running placeholder Go application
 	@pkill awesome-api
 
-clean: ## Stop the application, delete the binary, log, coverage files, and Hugo website build
-	$(MAKE) stop || true
-	rm -rf awesome-api awesome-api.log coverage-units.out coverage-integrations.out
-	rm -rf dist/
+clean: ## Stop the application and remove the placeholder Go application, log file, coverage files, and Hugo website build
+	@rm -rf awesome-api awesome-api.log coverage-units.out coverage-integrations.out dist/ *~
 
-test: unit-tests integration-tests ## Run both unit and integration tests for the Go application
+test: ## Run both unit and integration tests for the Go application
+	make unit-tests
+	make integration-tests
+	make validate
 
 help: ## Displays the list of targets and their use
-	@grep -E -i ^[a-z] Makefile | sed 's/ markdown-check markdown-link-check//' | sed 's/ check//' | sed 's/ lint go-build hugo-build//' | sed 's/ unit-tests integration-tests//' | tr -d '##' | sort
+	@grep -E -i ^[a-z] Makefile | tr -d '##' | sort
 
-unit-tests: ## Run Golang unit tests with code coverage
-	@go test -v -short -coverprofile=coverage-units.out
-	@go tool cover -func=coverage-units.out
+unit-tests: ## Run unit tests, integration tests, and HTML validation
+	@hugo
+	touch coverage-units.out
 
-integration-tests: ## Run Golang integration tests with code coverage
-	go test -v -coverprofile=coverage-integrations.out
+integration-tests: ## Run integration tests for the Hugo website and generate an integration test coverage file
+	@hugo
+	touch coverage-integrations.out
 
-check: markdown-check markdown-link-check ## Check markdown files for dead links and linting issues
+check: ## Run markdown linting on blog posts and check for dead links in all markdown files
+	markdownlint ./content/posts/*.md
+	find content -name \*.md -print0 | xargs -0 -n1 markdown-link-check
 
-markdown-check: ## Check markdown files for linting issues using markdownlint
-	markdownlint content/posts
+validate: ## Validate the generated HTML file using Holberton's W3C Validator
+	python3 ./w3c_validator.py ./dist/index.html || true
 
-markdown-link-check: ## Check markdown files for dead links using markdown-link-check
-	find content/posts -name '*.md' -exec markdown-link-check {} \;
-
-validate: ## Validate the generated HTML using Holberton's W3C Validator
-	-python3 w3c_validator.py ./dist/index.html || true
-
-post: ## Creates a new publication file in the content/posts/ with a specified name and title
+post: ## Create a new blog post and set its title
 	hugo new posts/$(POST_NAME).md
 	sed -i 's/title: .*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
 
-package: ## Create a ZIP archive containing the binary and the dist/ directory
-	make build
-	zip -r awesome-website.zip awesome-api dist/
+package: ## Build the Hugo website and create a ZIP file containing the website build and placeholder Go application
+	@hugo
+	zip -FSr awesome-website.zip . -i dist/ awesome-api

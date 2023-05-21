@@ -28,22 +28,22 @@ The workflow runs on a virtual machine with Ubuntu 22.04 and performs the follow
 To build and run the application, use the following commands:
 
 ```makefile
-$ make build
-$ make run
+make build
+make run
 ```
   
-Then, visit http://localhost:9999/posts/welcome/ to test the "Say Hello" feature.
-   
+Then, visit <http://localhost:9999/posts/welcome/> to test the "Say Hello" feature.
+
 To stop the application, run:
   
 ```makefile
-$ make stop
+make stop
 ```
 
 To clean up the generated files, run:
 
 ```makefile
-$ make clean
+make clean
 ```
 
 ## Lifecycle
