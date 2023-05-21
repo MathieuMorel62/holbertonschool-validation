@@ -8,10 +8,11 @@ RUN apk update && \
 
 # Install npm and markdownlint
 RUN apk add --no-cache npm && \
-    npm install -g markdownlint-cli@1.10.0
+    npm install -g markdownlint-cli
 
 # Install container-structure-test
-RUN wget -O /usr/local/bin/container-structure-test https://storage.googleapis.com/container-structure-test/v1.10.0/container-structure-test-linux-amd64 && \
+ENV CONTAINER_STRUCTURE_TEST_VERSION=1.10.0
+RUN wget -O /usr/local/bin/container-structure-test https://storage.googleapis.com/container-structure-test/v${CONTAINER_STRUCTURE_TEST_VERSION}/container-structure-test-linux-amd64 && \
     chmod +x /usr/local/bin/container-structure-test
 
 # Set the PATH to include npm
