@@ -25,6 +25,17 @@ jobs:
       - name: Install markdownlint-check
         run: sudo npm install -g markdown-link-check
 
+      - name: Build Docker image
+        run: |
+          cd ./module4_task2
+          make build-docker
+
+      - name: Install hadolint
+        run: |
+          wget https://github.com/hadolint/hadolint/releases/download/v2.6.0/hadolint-Linux-x86_64
+          chmod +x hadolint-Linux-x86_64
+          sudo mv hadolint-Linux-x86_64 /usr/local/bin/hadolint
+
       - name: run lint
         run: |
           cd ./module4_task2
