@@ -1,21 +1,10 @@
-FROM golang:latest
-
-# Add a specific user
-RUN useradd -m Mathieu
+FROM golang:1.15.8-alpine
 
 # Install the required tools
-RUN apt-get update && \
-    apt-get install -y hugo && \
-    apt-get install -y npm nodejs && \
-    npm install -g npm@9.6.7 && \
-    npm install -g markdownlint-cli@0.29.0 && \
-    npm install --package-lock-only && \
-    npm audit fix --package-lock-only && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+RUN apk update && \
+    apk add --no-cache hugo && \
+    export GO111MODULE=on && \
+    go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.33.0
 
 # Set the working directory in the container
 WORKDIR /usr/src/myapp
-
-# Switch to the new user
-USER Mathieu
