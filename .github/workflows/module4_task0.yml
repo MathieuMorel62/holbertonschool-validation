@@ -19,43 +19,53 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: installation Hugo with script
-        run: |
-          cd module4_task0 && ./setup.sh
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
 
-      - name: Print PATH
-        run: echo $PATH
-
-      - name: Check Hugo
-        run: which hugo || true
-
-      - name: Run Hugo directly
-        run: hugo version
-
-      - name: Install npm dependencies
+      - name: Install markdownlint and markdown-link-check
         run: sudo npm install -g markdownlint-cli markdown-link-check
 
-      - name: Validate the Makefile
+      - name: Install Hugo
         run: |
-          make help
-          make build
-          make lint
-          make run
-          make clean
-        working-directory: module4_task0
+          wget https://github.com/gohugoio/hugo/releases/download/v0.87.0/\
+          hugo_extended_0.87.0_Linux-64bit.deb
+          sudo dpkg -i hugo_extended_0.87.0_Linux-64bit.deb
 
-      - name: Run Package
+      - name: Lint
         run: |
           cd ./module4_task0
+          make lint
+
+      - name: Run unit tests
+        run: |
+          cd ./module4_task0
+          make unit-tests
+
+      - name: Run integration-tests
+        run: |
+          cd ./module4_task0
+          make integration-tests
+
+      - name: Run validate
+        run: |
+          cd ./module4_task0
+          make validate
+
+      - name: Setup environment
+        run: |
+          cd ./module4_task0
+          ./setup.sh
+
+      - name: Build and Package
+        run: |
+          cd ./module4_task0
+          make build
           make package
 
-      - name: Run different tests
-        run: |
-          cd ./module4_task0
-          make test
-
       - name: Archive package
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v2
         with:
           name: awesome-website
           path: ./module4_task0/awesome-website.zip
@@ -81,6 +91,20 @@ jobs:
     steps:
       - name: Check-out code
         uses: actions/checkout@v2
+
+      - name: Install markdownlint and markdown-link-check
+        run: sudo npm install -g markdownlint-cli markdown-link-check
+
+      - name: Install Hugo
+        run: |
+          wget https://github.com/gohugoio/hugo/releases/download/v0.87.0/\
+          hugo_extended_0.87.0_Linux-64bit.deb
+          sudo dpkg -i hugo_extended_0.87.0_Linux-64bit.deb
+
+      - name: Create Package
+        run: |
+          cd module4_task0
+          make package
 
       - name: Create Release
         id: create_release
