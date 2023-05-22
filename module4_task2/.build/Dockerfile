@@ -3,7 +3,7 @@ FROM golang:1.15.8-alpine
 # Install GCC and other required tools
 # hadolint ignore=DL3018
 RUN apk update && \
-    apk add --no-cache --update hugo gcc musl-dev && \
+    apk add --no-cache --update curl hugo gcc musl-dev && \
     export GO111MODULE=on && \
     go get github.com/golangci/golangci-lint/cmd/golangci-lint@v1.33.0 && \
     rm -rf /var/cache/apk/*
