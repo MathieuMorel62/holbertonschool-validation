@@ -31,3 +31,6 @@ RUN apk add --no-cache --update curl \
 
 # Set the working directory in the container
 WORKDIR /usr/src/myapp
+
+# Add the markdownlint configuration file
+COPY .build/cst.yml /usr/src/myapp/.build/cst.yml
