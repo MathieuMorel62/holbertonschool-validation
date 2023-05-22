@@ -1,6 +1,6 @@
 build: ## Generate both the static website with ./dist/ and the API application
 	docker run --volume ${GITHUB_WORKSPACE}/module4_task2/:/go golang:1.15.8-buster ls && go build
-	hugo
+	hugo > /dev/null 2>&1
 
 build-docker: ## Build and use the Docker image
 	docker build -t awesome:build ./.build
@@ -15,11 +15,11 @@ lint: build-docker ## Must execute all lint steps using the Docker image
 	docker run --rm -v "$(PWD)":/usr/src/myapp -w /usr/src/myapp awesome:build markdownlint DEPLOY.md README.md
 
 lint-docker: ## Lint the Dockerfile using Hadolint
-	@docker run --rm -i hadolint/hadolint < ./.build/Dockerfile
+	hadolint ./.build/Dockerfile
 
 docker-tests: ## Run container structure tests on the Docker image
 	-make build-docker
-	container-structure-test test --image awesome:build --config .build/cst.yml
+	container-structure-test test --image $(IMAGE_NAME) --config ./.build/cst.yml
 
 test: ## should execute all of the testing targets (unit-tests, integration-tests and validate
 	@make unit-tests
