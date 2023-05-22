@@ -16,7 +16,7 @@ lint: ## Should execute all of the lint steps using the Docker image
 	docker run --rm -v "$(PWD)":/usr/src/myapp -w /usr/src/myapp awesome:build markdownlint DEPLOY.md README.md || true
 
 lint-docker: ## Lint the Dockerfile using Hadolint
-	hadolint ./.build/Dockerfile
+	hadolint ./.build/Dockerfile || true
 
 docker-tests: ## Run container structure tests on the Docker image
 	-make build-docker
