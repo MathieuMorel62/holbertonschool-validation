@@ -1,5 +1,5 @@
 build: ## Generate both the static website with ./dist/ and the API application
-	docker run -w /app --volume ${GITHUB_WORKSPACE}/module4_task2/:/app golang:1.15.8-alpine sh -c "ls && rm -f go.mod && go mod init && go mod tidy && go build && hugo > /dev/null 2>&1"
+	docker run --rm --volume=$(shell pwd):/app --workdir=/app awesome:build /bin/bash -c "go mod init github.com/MathieuMorel62/module4_task2 && go get github.com/gorilla/mux && go build"
 
 build-docker: ## Build and use the Docker image
 	docker build -t awesome:build ./.build
