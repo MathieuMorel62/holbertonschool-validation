@@ -23,10 +23,11 @@ RUN curl -sLo /usr/local/bin/hadolint \
     chmod +x /usr/local/bin/hadolint
 
 # Install Container Structure Test
-# hadolint ignore=DL4001
-RUN wget -q -O /usr/local/bin/container-structure-test \
-    https://storage.googleapis.com/container-structure-test/v1.10.0/container-structure-test-linux-amd64 && \
-    chmod +x /usr/local/bin/container-structure-test
+# hadolint ignore=DL4001,DL3018
+RUN apk add --no-cache --update curl \
+    && curl -LO https://storage.googleapis.com/container-structure-test/latest/container-structure-test-linux-amd64 \
+    && chmod +x container-structure-test-linux-amd64 \
+    && mv container-structure-test-linux-amd64 /usr/local/bin/container-structure-test
 
 # Set the working directory in the container
 WORKDIR /usr/src/myapp
