@@ -15,13 +15,3 @@ rm hugo.deb
 # Install markdownlint-cli and markdown-link-check
 sudo npm install -g markdownlint-cli
 sudo npm install -g markdown-link-check
-
-# Install hadolint
-sudo wget -q -O /usr/local/bin/hadolint \
-"https://github.com/hadolint/hadolint/releases/download/v2.6.0/hadolint-Linux-x86_64"
-sudo chmod +x /usr/local/bin/hadolint
-
-# Install Container Structure Test
-sudo wget -q -O /usr/local/bin/container-structure-test \
-"https://storage.googleapis.com/container-structure-test/v1.10.0/container-structure-test-linux-amd64"
-sudo chmod +x /usr/local/bin/container-structure-test
