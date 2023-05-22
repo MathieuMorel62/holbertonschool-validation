@@ -30,6 +30,15 @@ jobs:
           cd ./module4_task2
           make build-docker
 
+      - name: Install hadolint
+        env:
+          HADOLINT_URL: >
+            https://github.com/hadolint/hadolint/releases/download/
+            v2.6.0/hadolint-Linux-x86_64
+        run: |
+          sudo curl -sLo /usr/local/bin/hadolint $HADOLINT_URL
+          sudo chmod +x /usr/local/bin/hadolint
+
       - name: run lint
         run: |
           cd ./module4_task2
