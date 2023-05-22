@@ -11,8 +11,7 @@ run: ## Run the Go application in background, and write logs into a file named a
 stop: ## Stop the Go application
 	pkill awesome-api
 
-lint: ## Should execute all of the lint steps using the Docker image
-	make build-docker
+lint: build-docker ## Must execute all lint steps using the Docker image
 	docker run --rm -v "$(PWD)":/usr/src/myapp -w /usr/src/myapp awesome:build markdownlint DEPLOY.md README.md || true
 
 lint-docker: ## Lint the Dockerfile using Hadolint
@@ -47,7 +46,7 @@ validate: ## checks if  the generated HTML is compliant with the W3C (acceptance
 	@./w3c_validator.py ./dist/index.html || true
 
 help: ## Prints out the list of targets and their usage.
-	@grep -E -i ^[a-z] Makefile | sed 's/ check//' | tr -d '##'
+	@grep -E -i ^[a-z] Makefile | sed 's/ check//' | sed 's/ build-docker//' | tr -d '##'
 
 package: ## produces a file awesome-website.zip
 	make build
