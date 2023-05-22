@@ -18,7 +18,7 @@ RUN apk add --no-cache --update nodejs npm && \
 RUN npm install -g markdownlint-cli
 
 # Install hadolint
-RUN wget -q -O /usr/local/bin/hadolint \
+RUN curl -sLo /usr/local/bin/hadolint \
     https://github.com/hadolint/hadolint/releases/download/v2.6.0/hadolint-Linux-x86_64 && \
     chmod +x /usr/local/bin/hadolint
 
