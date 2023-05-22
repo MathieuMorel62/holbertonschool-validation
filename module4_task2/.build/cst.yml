@@ -3,3 +3,9 @@ schemaVersion: '2.0.0'
 fileExistenceTests:
   - name: 'Dockerfile check'
     path: '/usr/src/myapp/Dockerfile'
+    shouldExist: true
+commandTests:
+  - name: "hugo installed"
+    command: "which"
+    args: ["hugo"]
+    expectedOutput: ["/usr/local/bin/hugo"]
