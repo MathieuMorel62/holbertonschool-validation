@@ -4,7 +4,7 @@
 apt-get update && apt-get install -y hugo make npm curl wget
 
 # download minimal version to use hugo with the template ananke
-sudo curl -L https://github.com/gohugoio/hugo/releases/download/v0.84.0/hugo_extended_0.84.0_Linux-64bit.deb -o hugo.deb
+sudo curl -L https://github.com/gohugoio/hugo/releases/download/v0.109.0/hugo_extended_0.109.0_Linux-64bit.deb -o hugo.deb
 
 # install hugo
 sudo apt install ./hugo.deb
