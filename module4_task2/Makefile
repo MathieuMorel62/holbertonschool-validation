@@ -15,7 +15,7 @@ lint: build-docker ## Must execute all lint steps using the Docker image
 	docker run --rm -v "$(PWD)":/usr/src/myapp -w /usr/src/myapp awesome:build markdownlint DEPLOY.md README.md
 
 lint-docker: ## Lint the Dockerfile using Hadolint
-	docker run --rm -v "$(PWD)/.build:/workdir" -w /workdir hadolint/hadolint hadolint Dockerfile
+	@docker run --rm -i hadolint/hadolint < ./.build/Dockerfile
 
 docker-tests: ## Run container structure tests on the Docker image
 	-make build-docker
