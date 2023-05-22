@@ -13,6 +13,7 @@ stop: ## Stop the Go application
 
 lint: build-docker ## Must execute all lint steps using the Docker image
 	docker run --rm -v "$(PWD)":/usr/src/myapp -w /usr/src/myapp awesome:build markdownlint DEPLOY.md README.md
+	docker run --rm -v "$(PWD)":/usr/src/myapp -w /usr/src/myapp hadolint/hadolint hadolint build/Dockerfile
 
 lint-docker: ## Lint the Dockerfile using Hadolint
 	hadolint ./.build/Dockerfile
