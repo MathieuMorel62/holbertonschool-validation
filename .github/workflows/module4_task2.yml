@@ -30,14 +30,17 @@ jobs:
           cd ./module4_task2
           make build-docker
 
+        # yamllint disable rule:line-length
       - name: Install hadolint
-        env:
-          HADOLINT_URL: >
-            https://github.com/hadolint/hadolint/releases/download/
-            v2.6.0/hadolint-Linux-x86_64
         run: |
-          sudo curl -sLo /usr/local/bin/hadolint $HADOLINT_URL
-          sudo chmod +x /usr/local/bin/hadolint
+          wget https://github.com/hadolint/hadolint/releases/download/v2.6.0/hadolint-Linux-x86_64
+          chmod +x hadolint-Linux-x86_64
+          mv hadolint-Linux-x86_64 /usr/local/bin/hadolint
+
+      - name: Install container-structure-test
+        run: |
+          wget -O /usr/local/bin/container-structure-test https://storage.googleapis.com/container-structure-test/v1.10.0/container-structure-test-linux-amd64
+          chmod +x /usr/local/bin/container-structure-test
 
       - name: run lint
         run: |
