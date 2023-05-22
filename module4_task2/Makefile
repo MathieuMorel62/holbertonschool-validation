@@ -1,5 +1,8 @@
 build: ## Generate both the static website with ./dist/ and the API application
-	docker run --volume ${GITHUB_WORKSPACE}/module4_task2/:/go/src golang:1.15.8-alpine /bin/sh -c "cd /go/src && go build"
+	docker run --rm --volume "${GITHUB_WORKSPACE}/module4_task2/":/go/src/app golang:1.15.8-alpine sh -c "cd /go/src/app && go build"
+	hugo
+
+	hugo
 
 build-docker: ## Build and use the Docker image
 	docker build -t awesome:build ./.build
@@ -30,6 +33,7 @@ unit-tests: ## Should be implemented and should execute (successfully) the Golan
 
 integration-tests: ## Should be implemented and should execute (successfully) the Golang integration tests
 	docker run --volume ${GITHUB_WORKSPACE}/module4_task2/:/go golang:1.15.8-alpine ls && go test -v -coverprofile=coverage-integrations.out
+
 
 clean: ## should delete all the generated files (logs, test reports, distribution directory, etc.) and call the make stop target as preliminary
 	make stop || true
