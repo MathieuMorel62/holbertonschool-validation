@@ -19,4 +19,3 @@ RUN npm install -g markdownlint-cli
 
 # Set the working directory in the container
 WORKDIR /usr/src/myapp
-
