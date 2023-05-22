@@ -13,7 +13,7 @@ RUN apk update && \
 RUN apk add --no-cache --update nodejs npm && \
     rm -rf /var/cache/apk/*
 
-COPY ./Dockerfile /usr/src/myapp/Dockerfile
+COPY . /usr/src/myapp
 
 # Install markdownlint
 # hadolint ignore=DL3016

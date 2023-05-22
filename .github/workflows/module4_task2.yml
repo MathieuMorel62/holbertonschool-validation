@@ -42,11 +42,6 @@ jobs:
           wget -O /usr/local/bin/container-structure-test https://storage.googleapis.com/container-structure-test/v1.10.0/container-structure-test-linux-amd64
           chmod +x /usr/local/bin/container-structure-test
 
-      - name: Install Hugo
-        run: |
-          wget https://github.com/gohugoio/hugo/releases/download/v0.84.0/hugo_extended_0.84.0_Linux-64bit.deb -O hugo.deb
-          sudo dpkg -i hugo.deb
-
       - name: run lint
         run: |
           cd ./module4_task2
