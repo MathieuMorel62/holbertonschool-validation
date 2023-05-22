@@ -1,5 +1,5 @@
 build: ## Generate both the static website with ./dist/ and the API application
-	docker run --rm --volume=$(shell pwd)/module4_task2:/app --workdir=/app golang:1.15.8-alpine go build -o awesome-api
+	docker run --volume ${GITHUB_WORKSPACE}/module4_task2/:/go/src golang:1.15.8-alpine /bin/sh -c "cd /go/src && go build"
 
 build-docker: ## Build and use the Docker image
 	docker build -t awesome:build ./.build
