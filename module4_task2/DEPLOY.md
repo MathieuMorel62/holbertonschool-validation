@@ -1,16 +1,17 @@
-# Deployment FAQ
+# Deployment Instructions
 
-- The archive awesome-website.zip contains an executable file awesome-api and
-a directory dist containing all the files needed to deploy the website.
+## Preparing a Release
 
-- To start the app run `unzip awesome-website.zip` and then run
-`./awesome-api &`
+When a new version of the application is ready for deployment,
+create a Git tag and push it to the remote repository. This triggers
+ the automated build process and creates a ZIP archive of the application.
 
-- To save logs to `awesome.log` file, run `./awesome-api >./awesome.log 2>&1 &`
+## Deploying a Release
 
-- To change the log file just change the name on command
+To deploy a release, download the ZIP archive from the GitHub release page.
+The archive is named `awesome-website.zip` and is associated with the Git
+tag for the release.
 
-- To verify application is running run `curl http://localhost:9999/health`
-and you should see 'ALIVE'
+## release
 
-- A zip file is generated when the tag 1.0.0 is pushed to Github
+for test archive-website.zip tag

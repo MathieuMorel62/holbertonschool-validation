@@ -21,7 +21,6 @@ docker-tests: ## Run container structure tests on the Docker image
 	-make build-docker
 	container-structure-test test --image awesome:build --config ./.build/cst.yml
 
-
 test: ## should execute all of the testing targets (unit-tests, integration-tests and validate
 	@make unit-tests
 	@make integration-tests
