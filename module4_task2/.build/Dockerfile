@@ -3,14 +3,9 @@ FROM golang:1.15.8-alpine
 # Install GCC and other required tools
 # hadolint ignore=DL3018,DL4006,SC2046
 RUN apk update && \
-    apk add --no-cache --update curl hugo gcc musl-dev && \
+    apk add --no-cache --update curl gcc && \
     export GO111MODULE=on && \
     curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin && \
-    rm -rf /var/cache/apk/*
-
-# Install Node.js and npm
-# hadolint ignore=DL3018,DL3019
-RUN apk add --no-cache --update nodejs npm && \
     rm -rf /var/cache/apk/*
 
 COPY . /usr/src/myapp
